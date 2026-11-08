@@ -13,10 +13,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div>
         {label && (
-          <label
-            htmlFor={inputId}
-            className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 ml-1"
-          >
+          <label htmlFor={inputId} className="mb-1 ml-1 block text-xs font-medium text-muted">
             {label}
           </label>
         )}
@@ -24,17 +21,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "w-full bg-white dark:bg-black",
-            "border border-gray-200 dark:border-gray-800",
-            "rounded-xl px-4 py-2.5",
-            "text-gray-900 dark:text-gray-100",
-            "focus:outline-none focus:border-blue-500/50 transition-colors",
-            error && "border-red-500",
+            "min-h-11 w-full rounded-sm border border-line bg-surface px-3 text-ink",
+            "placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-[120ms]",
+            error && "border-danger",
             className
           )}
           {...props}
+          aria-invalid={Boolean(error)}
         />
-        {error && <p className="text-xs text-red-500 mt-1 ml-1">{error}</p>}
+        {error && <p className="mt-1 ml-1 text-xs text-danger">{error}</p>}
       </div>
     )
   }
@@ -52,10 +47,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <div>
         {label && (
-          <label
-            htmlFor={inputId}
-            className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 ml-1"
-          >
+          <label htmlFor={inputId} className="mb-1 ml-1 block text-xs font-medium text-muted">
             {label}
           </label>
         )}
@@ -63,17 +55,15 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "w-full bg-white dark:bg-black",
-            "border border-gray-200 dark:border-gray-800",
-            "rounded-xl px-4 py-2",
-            "text-sm text-gray-900 dark:text-gray-100",
-            "font-mono focus:outline-none focus:border-blue-500/50 transition-colors resize-none",
-            error && "border-red-500",
+            "min-h-11 w-full rounded-sm border border-line bg-surface px-3 py-2",
+            "font-mono text-sm text-ink placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-[120ms] resize-none",
+            error && "border-danger",
             className
           )}
           {...props}
+          aria-invalid={Boolean(error)}
         />
-        {error && <p className="text-xs text-red-500 mt-1 ml-1">{error}</p>}
+        {error && <p className="mt-1 ml-1 text-xs text-danger">{error}</p>}
       </div>
     )
   }
@@ -91,10 +81,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <div>
         {label && (
-          <label
-            htmlFor={inputId}
-            className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 ml-1"
-          >
+          <label htmlFor={inputId} className="mb-1 ml-1 block text-xs font-medium text-muted">
             {label}
           </label>
         )}
@@ -102,11 +89,8 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "w-full bg-white dark:bg-black",
-            "border border-gray-200 dark:border-gray-800",
-            "rounded-xl px-4 py-2.5",
-            "text-gray-900 dark:text-gray-100",
-            "focus:outline-none focus:border-blue-500/50 transition-colors",
+            "min-h-11 w-full rounded-sm border border-line bg-surface px-3 text-ink",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-[120ms]",
             className
           )}
           {...props}

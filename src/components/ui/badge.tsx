@@ -8,16 +8,16 @@ export interface BadgeProps {
 }
 
 const variants = {
-  default: "bg-surface-secondary text-text-primary",
+  default: "bg-surface-2 text-ink",
   success: "bg-success-surface text-success-foreground",
   warning: "bg-warning-surface text-warning-foreground",
   danger: "bg-danger-surface text-danger-foreground",
   info: "bg-info-surface text-info-foreground",
-  purple: "bg-purple-50 text-purple-700 dark:bg-purple-900/20 dark:text-purple-300",
+  purple: "bg-course-3/12 text-course-3",
 }
 
 const sizes = {
-  sm: "px-2 py-0.5 text-[10px]",
+  sm: "px-2 py-0.5 text-[11px]",
   md: "px-2.5 py-1 text-xs",
 }
 

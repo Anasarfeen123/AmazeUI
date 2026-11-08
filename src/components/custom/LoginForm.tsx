@@ -92,7 +92,7 @@ export default function LoginForm({
     if (mockPercent < 75) {
       return {
         text: "Critical: Attendance below 75% limit!",
-        color: "text-rose-600 dark:text-rose-455 bg-rose-500/10 border border-rose-500/20",
+        color: "text-danger bg-danger-soft border border-danger/20",
       }
     }
     const maxTotal = Math.floor(mockAttended / 0.75)
@@ -100,13 +100,12 @@ export default function LoginForm({
     if (skipCount > 0) {
       return {
         text: `Safe to skip: Yes (${skipCount} class${skipCount > 1 ? "es" : ""})`,
-        color:
-          "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20",
+        color: "text-ok bg-ok-soft border border-ok/20",
       }
     }
     return {
       text: "Borderline: Exactly 75%. Do not skip.",
-      color: "text-amber-600 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20",
+      color: "text-warn bg-warn-soft border border-warn/20",
     }
   }
 
@@ -295,7 +294,7 @@ export default function LoginForm({
   if (!mounted) return null
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 dark:bg-[#03060F] dark:text-gray-150 flex flex-col justify-between selection:bg-indigo-500/30 overflow-x-hidden relative font-sans transition-colors duration-300">
+    <div className="min-h-screen bg-background text-ink flex flex-col justify-between selection:bg-accent/30 overflow-x-hidden relative font-sans transition-colors duration-300">
       {/* Inline Floating Animation CSS */}
       <style>{`
         @keyframes float {
@@ -309,11 +308,11 @@ export default function LoginForm({
       `}</style>
 
       {/* Grid Pattern Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f080_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f080_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1f293710_1px,transparent_1px),linear-gradient(to_bottom,#1f293710_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none -z-10" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--line-2)_1px,transparent_1px),linear-gradient(to_bottom,var(--line-2)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none -z-10" />
 
       {/* Navbar */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${isScrolled ? "bg-white/90 border-slate-200/80 dark:bg-[#03060Fd0] dark:border-neutral-900 backdrop-blur-md" : "bg-transparent border-transparent"}`}
+        className={`fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-300 ${isScrolled ? "bg-background/95 border-line" : "bg-transparent border-transparent"}`}
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-8">
@@ -329,41 +328,26 @@ export default function LoginForm({
                   ;(e.target as HTMLImageElement).src = "/images/icons/logo.png"
                 }}
               />
-              <span className="font-bold text-sm tracking-tight text-slate-900 dark:text-white font-[family-name:var(--font-outfit)]">
+              <span className="font-bold text-sm tracking-tight text-ink font-[family-name:var(--font-outfit)]">
                 AmazeCC
               </span>
             </div>
 
             {/* Nav links on desktop */}
-            <div className="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-500 dark:text-gray-400">
-              <a
-                href="#problem"
-                className="hover:text-slate-900 dark:hover:text-white transition-colors"
-              >
+            <div className="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-500 dark:text-muted">
+              <a href="#problem" className="hover:text-ink transition-colors">
                 The Challenge
               </a>
-              <a
-                href="#features"
-                className="hover:text-slate-900 dark:hover:text-white transition-colors"
-              >
+              <a href="#features" className="hover:text-ink transition-colors">
                 Modules
               </a>
-              <a
-                href="#timeline"
-                className="hover:text-slate-900 dark:hover:text-white transition-colors"
-              >
+              <a href="#timeline" className="hover:text-ink transition-colors">
                 Timeline
               </a>
-              <a
-                href="#roadmap"
-                className="hover:text-slate-900 dark:hover:text-white transition-colors"
-              >
+              <a href="#roadmap" className="hover:text-ink transition-colors">
                 Roadmap
               </a>
-              <a
-                href="#faq"
-                className="hover:text-slate-900 dark:hover:text-white transition-colors"
-              >
+              <a href="#faq" className="hover:text-ink transition-colors">
                 FAQ
               </a>
             </div>
@@ -373,7 +357,7 @@ export default function LoginForm({
             {/* Light/Dark Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 text-slate-700 dark:text-gray-300 transition-colors"
+              className="p-2 rounded-xl bg-surface-2 hover:bg-slate-200 dark:hover:bg-neutral-800 text-ink-2 transition-colors"
               title="Toggle theme"
             >
               {isDark ? <Sun size={15} /> : <Moon size={15} />}
@@ -381,14 +365,14 @@ export default function LoginForm({
 
             <button
               onClick={handleDemoClick}
-              className="text-xs font-semibold text-slate-500 hover:text-slate-950 dark:text-gray-400 dark:hover:text-white transition-colors cursor-pointer"
+              className="text-xs font-semibold text-muted hover:text-ink transition-colors cursor-pointer"
             >
               Try Demo
             </button>
             {!showLoginCard && (
               <button
                 onClick={() => setShowLoginCard(true)}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs px-4 py-2 rounded-xl transition-all cursor-pointer shadow-md shadow-indigo-600/10"
+                className="bg-accent hover:bg-accent/90 text-background font-semibold text-xs px-4 py-2 rounded-xl transition-colors cursor-pointer"
               >
                 Get Started
               </button>
@@ -407,19 +391,17 @@ export default function LoginForm({
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
                 {/* Hero Content Left */}
                 <div className="lg:col-span-6 space-y-6 text-left animate-fadeIn">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 dark:text-indigo-400">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-accent-soft border border-accent/30 text-accent">
                     <Sparkles size={11} /> Next-Generation Portal Dashboard
                   </div>
 
-                  <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-[1.05] text-slate-900 dark:text-white font-[family-name:var(--font-outfit)]">
+                  <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05] text-ink font-[family-name:var(--font-outfit)]">
                     Your Entire VIT Life.
                     <br />
-                    <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-                      One Dashboard.
-                    </span>
+                    <span className="text-accent">One Dashboard.</span>
                   </h1>
 
-                  <p className="text-sm text-slate-600 dark:text-gray-400 leading-relaxed max-w-lg font-medium">
+                  <p className="text-sm text-ink-2 leading-relaxed max-w-lg font-medium">
                     AmazeCC brings everything a VIT student needs into one beautifully designed
                     platform. Stop opening ten different portals. Track attendance, marks, room
                     counselling, and mess menus instantly.
@@ -429,7 +411,7 @@ export default function LoginForm({
                   <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
                     <button
                       onClick={() => setShowLoginCard(true)}
-                      className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs px-6 py-4 rounded-xl transition-all shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2 cursor-pointer group"
+                      className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-background font-semibold text-xs px-6 py-4 rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer group"
                     >
                       <span>Get Started</span>
                       <ArrowRight
@@ -439,31 +421,29 @@ export default function LoginForm({
                     </button>
                     <a
                       href="#features"
-                      className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 border border-slate-200 hover:border-slate-300 dark:bg-neutral-900/60 dark:hover:bg-neutral-900 dark:border-neutral-800 dark:hover:border-neutral-700 text-slate-700 dark:text-gray-300 font-black text-xs px-6 py-4 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer text-center"
+                      className="w-full sm:w-auto bg-surface-2 hover:bg-slate-200 border border-line hover:border-slate-300 dark:hover:bg-neutral-900 dark:hover:border-neutral-700 text-ink-2 font-semibold text-xs px-6 py-4 rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer text-center"
                     >
                       Explore Features
                     </a>
                   </div>
 
                   {/* Quick Stats Grid */}
-                  <div className="grid grid-cols-3 gap-6 pt-8 border-t border-slate-200 dark:border-neutral-900">
+                  <div className="grid grid-cols-3 gap-6 pt-8 border-t border-line">
                     <div>
-                      <h4 className="text-xl font-black text-slate-900 dark:text-white">30+</h4>
-                      <p className="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase mt-1">
+                      <h4 className="text-xl font-semibold text-ink">30+</h4>
+                      <p className="text-[11px] text-slate-500 dark:text-gray-500 font-bold mt-1">
                         Student Tools
                       </p>
                     </div>
                     <div>
-                      <h4 className="text-xl font-black text-slate-900 dark:text-white">10+</h4>
-                      <p className="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase mt-1">
+                      <h4 className="text-xl font-semibold text-ink">10+</h4>
+                      <p className="text-[11px] text-slate-500 dark:text-gray-500 font-bold mt-1">
                         Modules
                       </p>
                     </div>
                     <div>
-                      <h4 className="text-xl font-black text-indigo-600 dark:text-indigo-400">
-                        100%
-                      </h4>
-                      <p className="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase mt-1">
+                      <h4 className="text-xl font-semibold text-accent">100%</h4>
+                      <p className="text-[11px] text-slate-500 dark:text-gray-500 font-bold mt-1">
                         Free & Local
                       </p>
                     </div>
@@ -472,33 +452,28 @@ export default function LoginForm({
 
                 {/* Hero Centerpiece Artwork Right */}
                 <div className="lg:col-span-6 relative flex justify-center">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-purple-500/10 blur-[120px] rounded-full -z-10 animate-pulse duration-4000" />
-                  <div className="relative w-full max-w-[500px] aspect-4/3 rounded-3xl overflow-hidden border border-slate-200 dark:border-neutral-850 shadow-2xl animate-float">
+                  <div className="relative w-full max-w-[500px] aspect-4/3 rounded-lg overflow-hidden border border-line dark:border-neutral-850 shadow-lg animate-float">
                     <img
                       src="/hero-artwork.png"
                       alt="VIT Chennai Twilight Illustration"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/10 dark:from-[#03060Fd0] via-transparent to-transparent pointer-events-none" />
                   </div>
                 </div>
               </div>
             </section>
 
             {/* Section 2: The Problem */}
-            <section
-              id="problem"
-              className="bg-slate-100/50 border-y border-slate-200 dark:bg-[#02040a]/40 dark:border-neutral-900 py-20 px-6"
-            >
+            <section id="problem" className="bg-surface-2 border-y border-line py-20 px-6">
               <div className="max-w-4xl mx-auto text-center space-y-8">
                 <div className="space-y-3">
-                  <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest block">
+                  <span className="text-[11px] font-semibold text-accent block">
                     The Portal Challenge
                   </span>
-                  <h2 className="text-2xl md:text-4xl font-black text-slate-900 dark:text-white font-[family-name:var(--font-outfit)]">
+                  <h2 className="text-2xl md:text-4xl font-semibold text-ink font-[family-name:var(--font-outfit)]">
                     Tired of hopping between disconnected links?
                   </h2>
-                  <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 max-w-xl mx-auto leading-relaxed">
+                  <p className="text-xs md:text-sm text-ink-2 max-w-xl mx-auto leading-relaxed">
                     Most students waste hours daily logging into multiple outdated gateways just to
                     check attendance, look up room validation OTPs, or retrieve mess menus.
                   </p>
@@ -506,30 +481,30 @@ export default function LoginForm({
 
                 {/* Scattered Disconnected Cards UI */}
                 <div className="flex flex-wrap gap-4 justify-center items-center py-8">
-                  <div className="bg-white border border-slate-200 dark:bg-neutral-900/60 dark:border-neutral-800 rounded-xl px-4 py-3 text-xs text-rose-600 dark:text-rose-400/90 rotate-[-3deg] shadow-md select-none flex items-center gap-2">
+                  <div className="bg-surface border border-line rounded-xl px-4 py-3 text-xs text-danger rotate-[-3deg] shadow-md select-none flex items-center gap-2">
                     🔒 VTOP Session Expired (Re-login)
                   </div>
-                  <div className="bg-white border border-slate-200 dark:bg-neutral-900/60 dark:border-neutral-800 rounded-xl px-4 py-3 text-xs text-amber-600 dark:text-amber-400/90 rotate-[2deg] shadow-md select-none flex items-center gap-2">
+                  <div className="bg-surface border border-line rounded-xl px-4 py-3 text-xs text-warn rotate-[2deg] shadow-md select-none flex items-center gap-2">
                     💬 Outing Pass OTP Pending
                   </div>
-                  <div className="bg-white border border-slate-200 dark:bg-neutral-900/60 dark:border-neutral-800 rounded-xl px-4 py-3 text-xs text-purple-600 dark:text-purple-400/90 rotate-[-1deg] shadow-md select-none flex items-center gap-2">
+                  <div className="bg-surface border border-line rounded-xl px-4 py-3 text-xs text-course-3 shadow-md select-none flex items-center gap-2">
                     🧺 Laundry Booking Slot Locked
                   </div>
-                  <div className="bg-white border border-slate-200 dark:bg-neutral-900/60 dark:border-neutral-800 rounded-xl px-4 py-3 text-xs text-sky-600 dark:text-sky-400/90 rotate-[3deg] shadow-md select-none flex items-center gap-2">
+                  <div className="bg-surface border border-line rounded-xl px-4 py-3 text-xs text-accent rotate-[3deg] shadow-md select-none flex items-center gap-2">
                     🍲 Mess Menu PDF (Page 4)
                   </div>
-                  <div className="bg-white border border-slate-200 dark:bg-neutral-900/60 dark:border-neutral-800 rounded-xl px-4 py-3 text-xs text-emerald-600 dark:text-emerald-400/90 rotate-[-2deg] shadow-md select-none flex items-center gap-2">
+                  <div className="bg-surface border border-line rounded-xl px-4 py-3 text-xs text-ok rotate-[-2deg] shadow-md select-none flex items-center gap-2">
                     💳 Koha Book Catalog Error
                   </div>
                 </div>
 
                 {/* Arrow Connector */}
                 <div className="flex flex-col items-center justify-center space-y-2">
-                  <div className="h-10 w-[1px] bg-gradient-to-b from-indigo-500 to-transparent" />
-                  <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-4 py-1.5 rounded-full">
+                  <div className="h-10 w-[1px] bg-line" />
+                  <span className="text-[11px] font-semibold text-accent bg-accent-soft border border-accent/30 px-4 py-1.5 rounded-full">
                     AmazeCC Unifies Everything
                   </span>
-                  <div className="h-10 w-[1px] bg-gradient-to-t from-indigo-500 to-transparent" />
+                  <div className="h-10 w-[1px] bg-line" />
                 </div>
               </div>
             </section>
@@ -537,13 +512,13 @@ export default function LoginForm({
             {/* Section 3: Everything In One Place */}
             <section id="features" className="max-w-7xl mx-auto px-6 py-24 space-y-16">
               <div className="text-center space-y-3">
-                <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest block">
+                <span className="text-[11px] font-semibold text-accent block">
                   Comprehensive Modules
                 </span>
-                <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white font-[family-name:var(--font-outfit)]">
+                <h2 className="text-3xl md:text-4xl font-semibold text-ink font-[family-name:var(--font-outfit)]">
                   Everything inside one application
                 </h2>
-                <p className="text-xs md:text-sm text-slate-650 dark:text-gray-400 max-w-xl mx-auto">
+                <p className="text-xs md:text-sm text-slate-650 dark:text-muted max-w-xl mx-auto">
                   A unified layout that groups core widgets, predictive calculators, and offline
                   catalogs under cohesive interfaces.
                 </p>
@@ -554,16 +529,14 @@ export default function LoginForm({
                 {features.map((feat, idx) => (
                   <div
                     key={idx}
-                    className="bg-white border border-slate-200/80 hover:border-indigo-500/30 dark:bg-[#050814]/60 dark:border-neutral-900 p-6 rounded-3xl flex flex-col justify-between hover:bg-slate-50 dark:hover:bg-[#070b1c]/80 transition-all shadow-xs dark:shadow-none group"
+                    className="bg-surface border border-line hover:border-accent/30 p-6 rounded-lg flex flex-col justify-between hover:bg-slate-50 transition-colors shadow-xs dark:shadow-none group"
                   >
                     <div className="space-y-3">
                       <span className="text-3xl block shrink-0">{feat.emoji}</span>
-                      <h3 className="text-sm font-extrabold text-slate-900 dark:text-white uppercase tracking-wider font-[family-name:var(--font-outfit)]">
+                      <h3 className="text-sm font-semibold text-ink font-[family-name:var(--font-outfit)]">
                         {feat.title}
                       </h3>
-                      <p className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed font-medium">
-                        {feat.desc}
-                      </p>
+                      <p className="text-xs text-ink-2 leading-relaxed font-medium">{feat.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -571,45 +544,42 @@ export default function LoginForm({
             </section>
 
             {/* Attendance Simulator Widget Placement */}
-            <section className="bg-slate-100/50 border-y border-slate-200 dark:bg-[#050814]/40 dark:border-neutral-900 py-24 px-6 relative">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/5 blur-[120px] pointer-events-none" />
+            <section className="bg-surface-2 border-y border-line py-24 px-6 relative">
               <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <div className="lg:col-span-7 space-y-4 text-left">
-                  <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest block">
+                  <span className="text-[11px] font-semibold text-accent block">
                     Predictive Calculator
                   </span>
-                  <h2 className="text-3xl font-black text-slate-900 dark:text-white font-[family-name:var(--font-outfit)]">
+                  <h2 className="text-3xl font-semibold text-ink font-[family-name:var(--font-outfit)]">
                     Simulate attendance margins live
                   </h2>
-                  <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 leading-relaxed font-medium max-w-xl">
+                  <p className="text-xs md:text-sm text-ink-2 leading-relaxed font-medium max-w-xl">
                     Calculate safe margins before skip classes. Adjust the simulator below to check
                     the real-time safety limits, percentage ratios, and skip counts immediately.
                   </p>
                   <div className="flex items-center gap-6 pt-2 text-xs font-semibold text-slate-500 dark:text-gray-300">
                     <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-ok" />
                       <span>75% safety guard</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-indigo-500" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-accent" />
                       <span>Dynamic percentage</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="lg:col-span-5 bg-white border border-slate-200 dark:bg-neutral-950 dark:border-neutral-850 p-6 rounded-3xl space-y-4 shadow-xl">
-                  <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-900 pb-3">
+                <div className="lg:col-span-5 bg-surface border border-line dark:border-neutral-850 p-6 rounded-lg space-y-4 shadow-xl">
+                  <div className="flex items-center justify-between border-b border-line pb-3">
                     <div>
-                      <span className="text-[9px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 block">
+                      <span className="text-[11px] font-semibold text-accent block">
                         Attendance Preview
                       </span>
-                      <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                        Predictor Sandbox
-                      </h3>
+                      <h3 className="text-xs font-bold text-ink">Predictor Sandbox</h3>
                     </div>
                     <button
                       onClick={handleSimulateReset}
-                      className="p-1.5 rounded-lg text-gray-400 hover:text-slate-900 dark:text-gray-500 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors"
+                      className="p-1.5 rounded-lg text-muted hover:text-slate-900 dark:text-gray-500 dark:hover:text-white hover:bg-surface-2 dark:hover:bg-neutral-800 transition-colors"
                       title="Reset Demo"
                     >
                       <RotateCcw size={12} />
@@ -618,15 +588,12 @@ export default function LoginForm({
 
                   <div className="flex items-center justify-between gap-4">
                     <div className="space-y-1">
-                      <span className="text-[10px] font-bold text-slate-500 dark:text-gray-400">
+                      <span className="text-[11px] font-bold text-slate-500 dark:text-muted">
                         CSE3002 - COMPILER DESIGN
                       </span>
                       <div className="text-xs font-semibold text-slate-600 dark:text-gray-350">
-                        Attended:{" "}
-                        <span className="text-slate-900 dark:text-white font-black">
-                          {mockAttended}
-                        </span>{" "}
-                        / {mockTotal}
+                        Attended: <span className="text-ink font-semibold">{mockAttended}</span> /{" "}
+                        {mockTotal}
                       </div>
                     </div>
 
@@ -645,7 +612,7 @@ export default function LoginForm({
                           cx="28"
                           cy="28"
                           r={radius}
-                          className="stroke-indigo-600 dark:stroke-indigo-500 transition-all duration-300"
+                          className="stroke-accent transition-colors duration-300"
                           strokeWidth="4.5"
                           fill="transparent"
                           strokeDasharray={circumference}
@@ -653,7 +620,7 @@ export default function LoginForm({
                           strokeLinecap="round"
                         />
                       </svg>
-                      <span className="absolute text-[10px] font-black text-slate-900 dark:text-white">
+                      <span className="absolute text-[11px] font-semibold text-ink">
                         {Math.round(mockPercent)}%
                       </span>
                     </div>
@@ -661,7 +628,7 @@ export default function LoginForm({
 
                   {/* Skip alert panel */}
                   <div
-                    className={`p-3 rounded-xl text-[10px] font-bold text-center transition-all duration-300 ${skipStatus.color}`}
+                    className={`p-3 rounded-xl text-[11px] font-bold text-center transition-colors duration-300 ${skipStatus.color}`}
                   >
                     {skipStatus.text}
                   </div>
@@ -670,13 +637,13 @@ export default function LoginForm({
                   <div className="flex gap-2">
                     <button
                       onClick={handleSimulateAttend}
-                      className="flex-1 py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 dark:bg-neutral-950 dark:border-neutral-850 dark:hover:border-emerald-500/30 rounded-xl text-[9px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-1 transition-all"
+                      className="flex-1 py-2.5 bg-slate-50 hover:bg-surface-2 border border-line dark:border-neutral-850 rounded-xl text-[11px] font-bold text-ok flex items-center justify-center gap-1 transition-colors"
                     >
                       <Plus size={11} /> Attend
                     </button>
                     <button
                       onClick={handleSimulateSkip}
-                      className="flex-1 py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 dark:bg-neutral-950 dark:border-neutral-850 dark:hover:border-rose-500/30 rounded-xl text-[9px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-455 flex items-center justify-center gap-1 transition-all"
+                      className="flex-1 py-2.5 bg-slate-50 hover:bg-surface-2 border border-line dark:border-neutral-850 rounded-xl text-[11px] font-bold text-danger flex items-center justify-center gap-1 transition-colors"
                     >
                       <Minus size={11} /> Skip
                     </button>
@@ -688,68 +655,62 @@ export default function LoginForm({
             {/* Section 4: Beautiful Dashboard Preview Mockup */}
             <section className="max-w-7xl mx-auto px-6 py-24 space-y-16">
               <div className="text-center space-y-3">
-                <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest block">
-                  User Interface
-                </span>
-                <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white font-[family-name:var(--font-outfit)]">
+                <span className="text-[11px] font-semibold text-accent block">User Interface</span>
+                <h2 className="text-3xl md:text-4xl font-semibold text-ink font-[family-name:var(--font-outfit)]">
                   Designed for clarity
                 </h2>
-                <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 max-w-xl mx-auto">
+                <p className="text-xs md:text-sm text-ink-2 max-w-xl mx-auto">
                   A high-fidelity layout optimized for fast reading, dark preferences, and
                   desktop-first tracking.
                 </p>
               </div>
 
               {/* Overlapping CSS Mockup Container */}
-              <div className="relative max-w-4xl mx-auto h-[450px] overflow-hidden rounded-3xl border border-slate-200 bg-slate-100/40 dark:border-neutral-900 dark:bg-[#050711]/50 p-6 md:p-8 flex items-center justify-center shadow-md dark:shadow-xl">
+              <div className="relative max-w-4xl mx-auto h-[450px] overflow-hidden rounded-lg border border-line bg-surface-2 p-6 md:p-8 flex items-center justify-center shadow-md dark:shadow-xl">
                 {/* Mock Desktop Panel */}
-                <div className="hidden md:flex absolute top-10 left-10 right-28 bottom-10 bg-white border border-slate-200/80 dark:bg-neutral-950 dark:border-neutral-850 rounded-2xl shadow-2xl overflow-hidden -rotate-2 origin-top-left transition-transform duration-500 hover:rotate-0">
+                <div className="hidden md:flex absolute top-10 left-10 right-28 bottom-10 bg-surface border border-line dark:border-neutral-850 rounded-md shadow-lg overflow-hidden -rotate-2 origin-top-left transition-transform duration-500 hover:rotate-0">
                   {/* Sidebar mockup */}
-                  <div className="w-1/4 border-r border-slate-100 dark:border-neutral-900 p-4 space-y-4 bg-white dark:bg-neutral-950 select-none">
-                    <div className="flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-neutral-900">
-                      <div className="w-4 h-4 rounded bg-indigo-500 shrink-0" />
-                      <span className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                        AmazeCC
-                      </span>
+                  <div className="w-1/4 border-r border-line p-4 space-y-4 bg-surface select-none">
+                    <div className="flex items-center gap-2 pb-3 border-b border-line">
+                      <div className="w-4 h-4 rounded bg-accent shrink-0" />
+                      <span className="text-[11px] font-bold text-ink">AmazeCC</span>
                     </div>
                     <div className="space-y-2">
-                      <div className="h-6 rounded bg-slate-50 dark:bg-neutral-900 flex items-center px-2 text-[9px] text-slate-700 dark:text-gray-400 font-bold">
+                      <div className="h-6 rounded bg-slate-50 flex items-center px-2 text-[11px] text-slate-700 dark:text-muted font-bold">
                         📅 Calendar
                       </div>
-                      <div className="h-6 rounded flex items-center px-2 text-[9px] text-slate-500 dark:text-gray-500 font-bold">
+                      <div className="h-6 rounded flex items-center px-2 text-[11px] text-slate-500 dark:text-gray-500 font-bold">
                         🏫 Attendance
                       </div>
-                      <div className="h-6 rounded flex items-center px-2 text-[9px] text-slate-500 dark:text-gray-500 font-bold">
+                      <div className="h-6 rounded flex items-center px-2 text-[11px] text-slate-500 dark:text-gray-500 font-bold">
                         🏡 Hostel Hub
                       </div>
                     </div>
                   </div>
                   {/* Core layout mockup */}
-                  <div className="flex-1 p-6 space-y-4 bg-slate-50/50 dark:bg-neutral-900/20 select-none">
-                    <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-900 pb-3">
-                      <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                        Semester Course List
-                      </span>
-                      <span className="text-[9px] bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-full font-bold">
+                  <div className="flex-1 p-6 space-y-4 bg-surface-2 select-none">
+                    <div className="flex items-center justify-between border-b border-line pb-3">
+                      <span className="text-xs font-bold text-ink">Semester Course List</span>
+                      <span className="text-[11px] bg-ok-soft text-ok px-2 py-0.5 rounded-full font-bold">
                         Active
                       </span>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-white border border-slate-100 dark:bg-neutral-950 dark:border-neutral-850 p-3 rounded-xl space-y-2">
-                        <span className="text-[9px] font-bold text-slate-400 dark:text-gray-400 uppercase tracking-widest block">
+                      <div className="bg-surface border border-line dark:border-neutral-850 p-3 rounded-xl space-y-2">
+                        <span className="text-[11px] font-bold text-slate-400 dark:text-muted block">
                           BMAT201L
                         </span>
-                        <div className="h-1.5 w-3/4 rounded bg-indigo-500" />
-                        <span className="text-[9px] text-slate-500 dark:text-gray-500 font-bold block">
+                        <div className="h-1.5 w-3/4 rounded bg-accent" />
+                        <span className="text-[11px] text-slate-500 dark:text-gray-500 font-bold block">
                           Complex Variables
                         </span>
                       </div>
-                      <div className="bg-white border border-slate-100 dark:bg-neutral-950 dark:border-neutral-850 p-3 rounded-xl space-y-2">
-                        <span className="text-[9px] font-bold text-slate-400 dark:text-gray-400 uppercase tracking-widest block">
+                      <div className="bg-surface border border-line dark:border-neutral-850 p-3 rounded-xl space-y-2">
+                        <span className="text-[11px] font-bold text-slate-400 dark:text-muted block">
                           CSE3002
                         </span>
-                        <div className="h-1.5 w-1/2 rounded bg-indigo-500" />
-                        <span className="text-[9px] text-slate-500 dark:text-gray-500 font-bold block">
+                        <div className="h-1.5 w-1/2 rounded bg-accent" />
+                        <span className="text-[11px] text-slate-500 dark:text-gray-500 font-bold block">
                           Compiler Design
                         </span>
                       </div>
@@ -758,30 +719,22 @@ export default function LoginForm({
                 </div>
 
                 {/* Overlapping Mock Phone Panel */}
-                <div className="absolute md:right-6 md:bottom-6 left-1/2 md:left-auto top-1/2 md:top-auto -translate-x-1/2 -translate-y-1/2 md:translate-x-0 md:translate-y-0 w-52 h-80 bg-white border-4 border-slate-200 dark:bg-neutral-950 dark:border-neutral-800 rounded-3xl shadow-2xl p-4 overflow-hidden md:rotate-3 transition-transform duration-500 hover:rotate-0">
-                  <div className="w-12 h-4 bg-slate-100 dark:bg-neutral-850 rounded-full mx-auto mb-4" />
+                <div className="absolute md:right-6 md:bottom-6 left-1/2 md:left-auto top-1/2 md:top-auto -translate-x-1/2 -translate-y-1/2 md:translate-x-0 md:translate-y-0 w-52 h-80 bg-surface border-4 border-line rounded-lg shadow-lg p-4 overflow-hidden md:rotate-3 transition-transform duration-500 hover:rotate-0">
+                  <div className="w-12 h-4 bg-surface-2 dark:bg-neutral-850 rounded-full mx-auto mb-4" />
                   <div className="space-y-4 select-none">
                     <div className="flex items-center justify-between">
-                      <span className="text-[9px] font-bold text-slate-900 dark:text-white uppercase">
-                        Today's Hub
-                      </span>
-                      <span className="text-[9px] text-indigo-650 dark:text-indigo-400 font-bold">
-                        22BCE1234
-                      </span>
+                      <span className="text-xs font-semibold text-ink">Today's hub</span>
+                      <span className="text-[11px] text-accent font-bold">22BCE1234</span>
                     </div>
-                    <div className="bg-slate-50 dark:bg-neutral-900 p-2.5 rounded-xl space-y-2">
-                      <span className="text-[8px] text-emerald-600 dark:text-emerald-400 font-bold block">
-                        ✓ Attendance Safe
-                      </span>
-                      <div className="h-1 bg-indigo-500 rounded w-full" />
+                    <div className="bg-slate-50 p-2.5 rounded-xl space-y-2">
+                      <span className="text-[11px] text-ok font-bold block">✓ Attendance Safe</span>
+                      <div className="h-1 bg-accent rounded w-full" />
                     </div>
-                    <div className="bg-slate-50/50 border border-slate-100 dark:bg-[#050711] dark:border-neutral-900 p-2.5 rounded-xl space-y-2">
-                      <span className="text-[8px] text-slate-500 dark:text-gray-400 font-bold block">
+                    <div className="bg-surface-2 border border-line p-2.5 rounded-xl space-y-2">
+                      <span className="text-[11px] text-slate-500 dark:text-muted font-bold block">
                         Hostel Laundry
                       </span>
-                      <span className="text-[7px] text-slate-400 dark:text-gray-500 block">
-                        D-Block Slot #03 locked
-                      </span>
+                      <span className="text-[7px] text-muted block">D-Block Slot #03 locked</span>
                     </div>
                   </div>
                 </div>
@@ -789,16 +742,14 @@ export default function LoginForm({
             </section>
 
             {/* Section 5: Why Students Love AmazeCC */}
-            <section className="bg-slate-100/50 border-y border-slate-200 dark:bg-[#02040a]/40 dark:border-neutral-900 py-24 px-6">
+            <section className="bg-surface-2 border-y border-line py-24 px-6">
               <div className="max-w-7xl mx-auto space-y-16">
                 <div className="text-center space-y-3">
-                  <span className="text-[10px] font-black text-indigo-650 dark:text-indigo-400 uppercase tracking-widest block">
-                    Why AmazeCC?
-                  </span>
-                  <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white font-[family-name:var(--font-outfit)]">
+                  <span className="text-[11px] font-semibold text-accent block">Why AmazeCC?</span>
+                  <h2 className="text-3xl md:text-4xl font-semibold text-ink font-[family-name:var(--font-outfit)]">
                     Built for speed and complete trust
                   </h2>
-                  <p className="text-xs md:text-sm text-slate-650 dark:text-gray-400 max-w-xl mx-auto">
+                  <p className="text-xs md:text-sm text-slate-650 dark:text-muted max-w-xl mx-auto">
                     Design choices aligned to speed, local privacy, and simplicity.
                   </p>
                 </div>
@@ -807,9 +758,9 @@ export default function LoginForm({
                   {benefits.map((benefit, idx) => (
                     <div
                       key={idx}
-                      className="bg-white border border-slate-200 dark:bg-neutral-950/40 dark:border-neutral-900 p-6 rounded-2xl space-y-2 shadow-xs dark:shadow-none"
+                      className="bg-surface border border-line p-6 rounded-md space-y-2 shadow-xs dark:shadow-none"
                     >
-                      <h3 className="text-xs font-extrabold text-slate-900 dark:text-white uppercase tracking-wider font-[family-name:var(--font-outfit)]">
+                      <h3 className="text-xs font-semibold text-ink font-[family-name:var(--font-outfit)]">
                         {benefit.title}
                       </h3>
                       <p className="text-xs text-slate-600 dark:text-gray-455 leading-relaxed font-medium">
@@ -824,13 +775,13 @@ export default function LoginForm({
             {/* Section 6: Campus Companion Day Timeline */}
             <section id="timeline" className="max-w-7xl mx-auto px-6 py-24 space-y-16">
               <div className="text-center space-y-3">
-                <span className="text-[10px] font-black text-indigo-605 dark:text-indigo-400 uppercase tracking-widest block">
+                <span className="text-[11px] font-semibold text-accent block">
                   Daily Walkthrough
                 </span>
-                <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white font-[family-name:var(--font-outfit)]">
+                <h2 className="text-3xl md:text-4xl font-semibold text-ink font-[family-name:var(--font-outfit)]">
                   A typical day with AmazeCC
                 </h2>
-                <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 max-w-xl mx-auto">
+                <p className="text-xs md:text-sm text-ink-2 max-w-xl mx-auto">
                   See how AmazeCC supports your schedule checks and mess menu updates throughout
                   college hours.
                 </p>
@@ -841,14 +792,10 @@ export default function LoginForm({
                 {companionTimeline.map((item, idx) => (
                   <div key={idx} className="flex gap-6 relative pl-8 text-left">
                     {/* Circle indicators */}
-                    <div className="absolute left-2.5 top-1.5 w-3.5 h-3.5 rounded-full bg-indigo-600 border-4 border-slate-50 dark:border-neutral-950 shrink-0" />
+                    <div className="absolute left-2.5 top-1.5 w-3.5 h-3.5 rounded-full bg-accent border-4 border-slate-50 dark:border-neutral-950 shrink-0" />
                     <div className="space-y-1">
-                      <span className="text-[10px] font-black text-indigo-650 dark:text-indigo-400">
-                        {item.time}
-                      </span>
-                      <h3 className="text-sm font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">
-                        {item.title}
-                      </h3>
+                      <span className="text-[11px] font-semibold text-accent">{item.time}</span>
+                      <h3 className="text-sm font-semibold text-ink">{item.title}</h3>
                       <p className="text-xs text-slate-600 dark:text-gray-455 leading-relaxed font-medium">
                         {item.desc}
                       </p>
@@ -859,19 +806,16 @@ export default function LoginForm({
             </section>
 
             {/* Section 7: Future Roadmap */}
-            <section
-              id="roadmap"
-              className="bg-slate-100/50 border-t border-slate-200 dark:bg-[#02040a]/40 dark:border-neutral-900 py-24 px-6"
-            >
+            <section id="roadmap" className="bg-surface-2 border-t border-line py-24 px-6">
               <div className="max-w-7xl mx-auto space-y-16">
                 <div className="text-center space-y-3">
-                  <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest block">
+                  <span className="text-[11px] font-semibold text-accent block">
                     Project Roadmap
                   </span>
-                  <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white font-[family-name:var(--font-outfit)]">
+                  <h2 className="text-3xl md:text-4xl font-semibold text-ink font-[family-name:var(--font-outfit)]">
                     What is coming next
                   </h2>
-                  <p className="text-xs md:text-sm text-slate-650 dark:text-gray-400 max-w-xl mx-auto">
+                  <p className="text-xs md:text-sm text-slate-650 dark:text-muted max-w-xl mx-auto">
                     Continuous upgrades to extend scheduling assistance.
                   </p>
                 </div>
@@ -880,16 +824,14 @@ export default function LoginForm({
                   {roadmap.map((item, idx) => (
                     <div
                       key={idx}
-                      className="bg-white border border-slate-200 dark:bg-neutral-950/60 dark:border-neutral-900 p-6 rounded-2xl flex flex-col justify-between space-y-4 shadow-xs dark:shadow-none"
+                      className="bg-surface border border-line p-6 rounded-md flex flex-col justify-between space-y-4 shadow-xs dark:shadow-none"
                     >
                       <div className="space-y-2">
-                        <span className="text-[9px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full w-fit block">
+                        <span className="text-[11px] font-semibold text-accent bg-accent-soft border border-accent/30 px-2 py-0.5 rounded-full w-fit block">
                           {item.status}
                         </span>
-                        <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider pt-2">
-                          {item.title}
-                        </h3>
-                        <p className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed font-medium">
+                        <h3 className="text-xs font-bold text-ink pt-2">{item.title}</h3>
+                        <p className="text-xs text-ink-2 leading-relaxed font-medium">
                           {item.desc}
                         </p>
                       </div>
@@ -902,13 +844,11 @@ export default function LoginForm({
             {/* Section 8: FAQ Accordion */}
             <section id="faq" className="max-w-4xl mx-auto px-6 py-24 space-y-16">
               <div className="text-center space-y-3">
-                <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest block">
-                  Support & FAQs
-                </span>
-                <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white font-[family-name:var(--font-outfit)]">
+                <span className="text-[11px] font-semibold text-accent block">Support & FAQs</span>
+                <h2 className="text-3xl md:text-4xl font-semibold text-ink font-[family-name:var(--font-outfit)]">
                   Frequently Asked Questions
                 </h2>
-                <p className="text-xs md:text-sm text-slate-600 dark:text-gray-400 max-w-xl mx-auto">
+                <p className="text-xs md:text-sm text-ink-2 max-w-xl mx-auto">
                   Answers to common questions regarding credentials and connections.
                 </p>
               </div>
@@ -919,20 +859,20 @@ export default function LoginForm({
                   return (
                     <div
                       key={idx}
-                      className="border border-slate-200 bg-white dark:border-neutral-900 dark:bg-neutral-950/40 rounded-2xl overflow-hidden shadow-xs dark:shadow-none"
+                      className="border border-line bg-surface rounded-md overflow-hidden shadow-xs dark:shadow-none"
                     >
                       <button
                         onClick={() => setOpenFaq(isOpen ? null : idx)}
-                        className="w-full flex items-center justify-between p-5 text-left text-xs font-bold text-slate-900 hover:bg-slate-50 dark:text-white dark:hover:bg-neutral-900/30 uppercase tracking-wider transition-colors"
+                        className="w-full flex items-center justify-between p-5 text-left text-xs font-bold text-slate-900 hover:bg-slate-50 dark:text-white dark:hover:bg-neutral-900/30 transition-colors"
                       >
                         <span>{faq.q}</span>
                         <ChevronLeft
                           size={16}
-                          className={`text-gray-450 transition-transform duration-300 ${isOpen ? "-rotate-90" : ""}`}
+                          className={`text-muted transition-transform duration-300 ${isOpen ? "-rotate-90" : ""}`}
                         />
                       </button>
                       {isOpen && (
-                        <div className="p-5 border-t border-slate-200 bg-slate-50/50 text-slate-600 dark:border-neutral-900 dark:bg-neutral-950/20 dark:text-gray-400 text-xs leading-relaxed font-medium">
+                        <div className="p-5 border-t border-line bg-surface-2 text-ink-2 text-xs leading-relaxed font-medium">
                           {faq.a}
                         </div>
                       )}
@@ -947,65 +887,61 @@ export default function LoginForm({
           <div className="max-w-4xl mx-auto px-6 pt-32 pb-24 w-full animate-scaleIn">
             <button
               onClick={() => setShowLoginCard(false)}
-              className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-900 dark:text-gray-400 hover:text-white mb-6 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-900 dark:text-muted hover:text-white mb-6 transition-colors cursor-pointer"
             >
               <ChevronLeft size={14} /> Back to product info
             </button>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
               {/* Left Column: Security and Details info */}
-              <div className="lg:col-span-5 bg-slate-100 border border-slate-200 dark:bg-[#050814]/40 dark:border-neutral-900 p-6 rounded-3xl flex flex-col justify-between space-y-6">
+              <div className="lg:col-span-5 bg-surface-2 border border-line p-6 rounded-lg flex flex-col justify-between space-y-6">
                 <div className="space-y-4">
-                  <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider font-[family-name:var(--font-outfit)]">
+                  <h3 className="text-xs font-bold text-ink font-[family-name:var(--font-outfit)]">
                     Security & Privacy
                   </h3>
                   <div className="space-y-4 text-left">
                     <div className="flex gap-3">
-                      <div className="p-2 bg-indigo-550/10 text-indigo-650 dark:text-indigo-400 rounded-lg shrink-0 h-fit">
+                      <div className="p-2 bg-accent-soft text-accent rounded-lg shrink-0 h-fit">
                         <Shield size={14} />
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                          Client-Side Only
-                        </h4>
-                        <p className="text-[10px] text-slate-500 dark:text-gray-455 mt-0.5 leading-relaxed font-medium">
+                        <h4 className="text-xs font-bold text-ink">Client-Side Only</h4>
+                        <p className="text-[11px] text-slate-500 dark:text-gray-455 mt-0.5 leading-relaxed font-medium">
                           Authentication details and cookie stores stay strictly local. We never
                           host database storage.
                         </p>
                       </div>
                     </div>
                     <div className="flex gap-3">
-                      <div className="p-2 bg-indigo-550/10 text-indigo-650 dark:text-indigo-400 rounded-lg shrink-0 h-fit">
+                      <div className="p-2 bg-accent-soft text-accent rounded-lg shrink-0 h-fit">
                         <Zap size={14} />
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                          Direct verify
-                        </h4>
-                        <p className="text-[10px] text-slate-500 dark:text-gray-455 mt-0.5 leading-relaxed font-medium">
+                        <h4 className="text-xs font-bold text-ink">Direct verify</h4>
+                        <p className="text-[11px] text-slate-500 dark:text-gray-455 mt-0.5 leading-relaxed font-medium">
                           Secure verification directly with VTOP servers to pull schedules.
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="pt-4 border-t border-slate-200 dark:border-neutral-900 text-[10px] text-slate-450 dark:text-gray-500 font-semibold text-left">
+                <div className="pt-4 border-t border-line text-[11px] text-slate-450 dark:text-gray-500 font-semibold text-left">
                   Secured by standard TLS encryption directly to the VIT gateway.
                 </div>
               </div>
 
               {/* Right Column: Login form card */}
-              <div className="lg:col-span-7 bg-white border border-slate-200 dark:bg-[#050814]/60 dark:border-neutral-900 backdrop-blur-2xl rounded-3xl p-7 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+              <div className="lg:col-span-7 bg-surface border border-line rounded-lg p-7 flex flex-col justify-between shadow-lg relative overflow-hidden">
                 {isLoading && (
-                  <div className="absolute inset-0 bg-white/80 dark:bg-[#050814]/90 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center z-25 space-y-4 animate-in fade-in duration-300">
-                    <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+                  <div className="absolute inset-0 bg-surface/90 rounded-lg flex flex-col items-center justify-center z-25 space-y-4 animate-in fade-in duration-300">
+                    <div className="relative flex items-center justify-center w-16 h-16 rounded-md bg-accent-soft text-accent">
                       <Loader2 className="w-8 h-8 animate-spin" />
                     </div>
                     <div className="text-center space-y-1">
-                      <p className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white font-[family-name:var(--font-outfit)]">
+                      <p className="text-xs font-semibold text-ink font-[family-name:var(--font-outfit)]">
                         VTOP Authentication
                       </p>
-                      <p className="text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider animate-pulse">
+                      <p className="text-[11px] font-bold text-slate-500 dark:text-muted animate-pulse">
                         Establishing secure gateway...
                       </p>
                     </div>
@@ -1013,15 +949,13 @@ export default function LoginForm({
                 )}
                 <form onSubmit={handleFormSubmit} className="space-y-6">
                   {/* Header info */}
-                  <div className="flex items-center gap-2.5 border-b border-slate-105 dark:border-neutral-900 pb-4 mb-2">
-                    <div className="p-2 bg-indigo-550/10 border border-indigo-200 dark:border-indigo-500/20 text-indigo-650 dark:text-indigo-400 rounded-lg">
+                  <div className="flex items-center gap-2.5 border-b border-slate-105 pb-4 mb-2">
+                    <div className="p-2 bg-accent-soft border border-accent/30 text-accent rounded-lg">
                       <Shield size={16} />
                     </div>
                     <div className="text-left">
-                      <h2 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                        VTOP Verification
-                      </h2>
-                      <p className="text-[10px] text-slate-500 dark:text-gray-455 mt-0.5">
+                      <h2 className="text-sm font-bold text-ink">VTOP Verification</h2>
+                      <p className="text-[11px] text-slate-500 dark:text-gray-455 mt-0.5">
                         Secure authentication via VIT database
                       </p>
                     </div>
@@ -1034,12 +968,12 @@ export default function LoginForm({
                       message.toLowerCase().includes("incorrect") ||
                       message.toLowerCase().includes("captcha") ||
                       message.toLowerCase().includes("error")) && (
-                      <div className="p-3.5 rounded-xl border text-xs text-center font-bold bg-rose-500/10 border-rose-500/20 text-rose-650 dark:text-rose-450">
+                      <div className="p-3.5 rounded-xl border text-xs text-center font-bold bg-danger-soft border-danger/20 text-danger">
                         {message}
                       </div>
                     )}
 
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 dark:bg-neutral-950 dark:border-neutral-900 mb-4">
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-line mb-4">
                     <div className="flex items-center gap-2">
                       <Server size={14} className="text-slate-500" />
                       <span className="text-xs font-bold text-slate-600 dark:text-gray-300">
@@ -1049,7 +983,7 @@ export default function LoginForm({
                     <select
                       value={activeApi}
                       onChange={(e) => onApiChange(e.target.value)}
-                      className="text-xs bg-transparent border-none focus:ring-0 text-indigo-600 dark:text-indigo-400 font-bold cursor-pointer"
+                      className="text-xs bg-transparent border-none focus:ring-0 text-accent font-bold cursor-pointer"
                     >
                       <option value={primaryApiUrl}>Primary</option>
                       <option value={backupApiUrl}>Backup</option>
@@ -1058,7 +992,7 @@ export default function LoginForm({
 
                   <div className="space-y-4 text-left">
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider pl-0.5">
+                      <label className="text-[11px] font-bold text-slate-500 dark:text-muted pl-0.5">
                         VTop Username
                       </label>
                       <Input
@@ -1072,7 +1006,7 @@ export default function LoginForm({
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider pl-0.5">
+                      <label className="text-[11px] font-bold text-slate-500 dark:text-muted pl-0.5">
                         VTOP Password
                       </label>
                       <div className="relative">
@@ -1086,7 +1020,7 @@ export default function LoginForm({
                         />
                         <button
                           type="button"
-                          className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                          className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded text-slate-400 hover:text-ink"
                           onClick={() => setShowPassword(!showPassword)}
                         >
                           {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
@@ -1098,7 +1032,7 @@ export default function LoginForm({
                   {!isLoading && (
                     <>
                       <div className="space-y-3 text-left">
-                        <p className="text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider pl-0.5">
+                        <p className="text-[11px] font-bold text-slate-500 dark:text-muted pl-0.5">
                           Residential Status
                         </p>
                         <div className="flex gap-2.5">
@@ -1108,10 +1042,10 @@ export default function LoginForm({
                               setResidentialStatus("hosteller")
                               setIsDayscholarWithBus(false)
                             }}
-                            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all border ${
+                            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-colors border ${
                               residentialStatus === "hosteller"
-                                ? "bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-600/10"
-                                : "bg-slate-50 text-slate-500 border-slate-200 dark:bg-neutral-950 dark:text-gray-400 dark:border-neutral-900 hover:border-indigo-500/30"
+                                ? "bg-accent text-background border-accent"
+                                : "bg-slate-50 text-slate-500 border-line dark:text-muted hover:border-accent/30"
                             }`}
                           >
                             Hosteller
@@ -1119,17 +1053,17 @@ export default function LoginForm({
                           <button
                             type="button"
                             onClick={() => setResidentialStatus("dayscholar")}
-                            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all border ${
+                            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-colors border ${
                               residentialStatus === "dayscholar"
-                                ? "bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-600/10"
-                                : "bg-slate-50 text-slate-500 border-slate-200 dark:bg-neutral-950 dark:text-gray-400 dark:border-neutral-900 hover:border-indigo-500/30"
+                                ? "bg-accent text-background border-accent"
+                                : "bg-slate-50 text-slate-500 border-line dark:text-muted hover:border-accent/30"
                             }`}
                           >
                             Dayscholar
                           </button>
                         </div>
                         {residentialStatus === "dayscholar" && (
-                          <label className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200 dark:bg-neutral-950 dark:border-neutral-900 cursor-pointer transition-all hover:border-indigo-500/30">
+                          <label className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-line cursor-pointer transition-colors hover:border-accent/30">
                             <Checkbox
                               checked={isDayscholarWithBus}
                               onCheckedChange={(checked) => setIsDayscholarWithBus(!!checked)}
@@ -1140,7 +1074,7 @@ export default function LoginForm({
                           </label>
                         )}
                       </div>
-                      <Button type="submit" className="w-full text-xs font-extrabold" size="lg">
+                      <Button type="submit" className="w-full text-xs font-semibold" size="lg">
                         Authenticate
                       </Button>
                     </>
@@ -1153,36 +1087,30 @@ export default function LoginForm({
       </main>
 
       {/* Footer */}
-      <footer className="px-6 py-8 border-t border-slate-200 dark:border-neutral-900 bg-slate-100 dark:bg-[#020409]/60 text-center space-y-3 transition-colors">
+      <footer className="px-6 py-8 border-t border-line bg-surface-2 text-center space-y-3 transition-colors">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-gray-500">
           <div>
-            <span className="font-bold text-slate-900 dark:text-white font-[family-name:var(--font-outfit)]">
+            <span className="font-bold text-ink font-[family-name:var(--font-outfit)]">
               AmazeCC
             </span>
           </div>
           <div className="flex gap-4">
-            <a
-              href="/privacy"
-              className="hover:text-slate-900 dark:hover:text-white transition-colors"
-            >
+            <a href="/privacy" className="hover:text-ink transition-colors">
               Privacy
             </a>
-            <a
-              href="/terms"
-              className="hover:text-slate-900 dark:hover:text-white transition-colors"
-            >
+            <a href="/terms" className="hover:text-ink transition-colors">
               Terms
             </a>
             <a
               href="https://github.com/AmazeContinuityProjects/AmazeCC"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-slate-900 dark:hover:text-white transition-colors"
+              className="hover:text-ink transition-colors"
             >
               GitHub
             </a>
           </div>
-          <p className="text-[10px] font-semibold">
+          <p className="text-[11px] font-semibold">
             Made with ❤️ by students. Not affiliated with VIT or VTOP.
           </p>
         </div>

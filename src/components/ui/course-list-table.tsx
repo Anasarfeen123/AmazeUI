@@ -34,39 +34,24 @@ export function CourseListTable({
 
   return (
     <div
-      className={cn(
-        "bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm flex flex-col",
-        className
-      )}
+      className={cn("bg-surface border border-line rounded-xl shadow-sm flex flex-col", className)}
     >
-      <div className="p-4 border-b border-gray-200 dark:border-gray-800 bg-gray-100/30 dark:bg-gray-900/30 rounded-t-xl">
-        <h3 className="font-bold text-gray-900 dark:text-gray-100">{title}</h3>
+      <div className="p-4 border-b border-line bg-surface-2/60 rounded-t-xl">
+        <h3 className="font-bold text-ink">{title}</h3>
       </div>
       <div>
         <table className="w-full text-left border-collapse min-w-[600px]">
-          <thead className="bg-gray-100/50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800">
+          <thead className="bg-surface-2 border-b border-line">
             <tr>
-              <th className="py-3 px-4 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Course
-              </th>
-              <th className="py-3 px-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Type
-              </th>
-              <th className="py-3 px-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Faculty
-              </th>
-              <th className="py-3 px-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Slots
-              </th>
-              <th className="py-3 px-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Venue
-              </th>
-              <th className="py-3 px-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Credits
-              </th>
+              <th className="py-3 px-4 text-xs font-medium text-muted">Course</th>
+              <th className="py-3 px-2 text-xs font-medium text-muted">Type</th>
+              <th className="py-3 px-2 text-xs font-medium text-muted">Faculty</th>
+              <th className="py-3 px-2 text-xs font-medium text-muted">Slots</th>
+              <th className="py-3 px-2 text-xs font-medium text-muted">Venue</th>
+              <th className="py-3 px-2 text-xs font-medium text-muted">Credits</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
+          <tbody className="divide-y divide-line-2">
             {courses.map((c) => (
               <tr
                 key={c.id}
@@ -76,7 +61,7 @@ export function CourseListTable({
                   <div className="flex items-center gap-3">
                     <div className={cn("w-3 h-3 rounded-full shrink-0", c.color)} />
                     <div>
-                      <p className="text-gray-900 dark:text-gray-100 font-semibold text-sm flex items-center gap-2 flex-wrap">
+                      <p className="text-ink font-semibold text-sm flex items-center gap-2 flex-wrap">
                         {c.code}
                         {c.batch &&
                           c.batch
@@ -95,7 +80,7 @@ export function CourseListTable({
                               </span>
                             ))}
                       </p>
-                      <p className="text-gray-500 dark:text-gray-400 text-xs max-w-xs">{c.title}</p>
+                      <p className="text-muted text-xs max-w-xs">{c.title}</p>
                     </div>
                   </div>
                 </td>
@@ -110,7 +95,7 @@ export function CourseListTable({
                     {c.slots.map((s) => (
                       <span
                         key={s}
-                        className="bg-gray-100/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-[10px] px-1.5 py-0.5 rounded-md"
+                        className="bg-gray-100/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-[11px] px-1.5 py-0.5 rounded-md"
                       >
                         {s}
                       </span>

@@ -12,10 +12,10 @@ export interface ProgressBarProps {
 }
 
 const barColors = {
-  blue: "bg-blue-500",
-  emerald: "bg-emerald-500",
-  amber: "bg-amber-500",
-  red: "bg-red-500",
+  blue: "bg-accent",
+  emerald: "bg-ok",
+  amber: "bg-warn",
+  red: "bg-danger",
 }
 
 const sizes = {
@@ -44,16 +44,14 @@ export function ProgressBar({
       >
         <View
           className={cn(
-            "h-full rounded-full transition-all duration-500 ease-out",
+            "h-full rounded-full transition-colors duration-500 ease-out",
             barColors[color],
             barClassName
           )}
           style={{ width: `${pct}%` }}
         />
       </View>
-      {showLabel && (
-        <Text className="text-xs text-gray-500 dark:text-gray-400 mt-1">{Math.round(pct)}%</Text>
-      )}
+      {showLabel && <Text className="text-xs text-muted mt-1">{Math.round(pct)}%</Text>}
     </View>
   )
 }

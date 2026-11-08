@@ -11,7 +11,12 @@ export interface SkeletonProps extends ViewProps {
 function Skeleton({ className, ...props }: SkeletonProps) {
   return (
     <View
-      {...({ className: cn("animate-pulse rounded-md bg-primary/10", className) } as any)}
+      {...({
+        className: cn(
+          "animate-pulse rounded-sm bg-surface-2 motion-reduce:animate-none",
+          className
+        ),
+      } as any)}
       {...props}
     />
   )

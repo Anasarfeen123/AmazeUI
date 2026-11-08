@@ -25,22 +25,19 @@ export function Card({
   subtitle,
   action,
 }: CardProps) {
-  const base = "rounded-2xl transition-all duration-300"
+  const base = "rounded-md border transition-colors duration-[120ms]"
 
   const variants = {
-    default:
-      "bg-white text-gray-900 border border-gray-200 shadow-sm dark:bg-gray-950 dark:text-gray-100 dark:border-gray-800",
-    glass:
-      "bg-white/70 backdrop-blur-xl border border-gray-200 dark:bg-gray-950/40 dark:border-gray-800",
+    default: "border-line bg-surface text-ink",
+    glass: "border-line bg-surface text-ink",
     gradient: gradient
-      ? `border-none text-white shadow-md ${gradient}`
-      : "bg-gradient-to-r from-blue-600 to-indigo-600 border-none text-white shadow-md",
-    outline:
-      "border border-gray-200 bg-transparent text-gray-900 dark:border-gray-800 dark:text-gray-100",
+      ? `border-accent/30 bg-accent-soft text-ink ${gradient}`
+      : "border-accent/30 bg-accent-soft text-ink",
+    outline: "border-line bg-transparent text-ink",
   }
 
   const hoverClasses = hover
-    ? "hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
+    ? `${variant === "gradient" ? "hover:border-accent/50" : "hover:bg-surface-2"} cursor-pointer`
     : onClick
       ? "cursor-pointer"
       : ""
@@ -71,14 +68,17 @@ export function CardHeader({
 }: React.HTMLAttributes<HTMLDivElement> & { action?: React.ReactNode }) {
   if (action) {
     return (
-      <div className={cn("flex items-start justify-between gap-4 p-6", className)} {...props}>
-        <div className="flex flex-col space-y-1.5 flex-1 min-w-0">{children}</div>
+      <div
+        className={cn("flex items-start justify-between gap-4 px-4 py-3.5", className)}
+        {...props}
+      >
+        <div className="flex min-w-0 flex-1 flex-col space-y-1.5">{children}</div>
         <div className="shrink-0">{action}</div>
       </div>
     )
   }
   return (
-    <div className={cn("flex flex-col space-y-1.5 p-6", className)} {...props}>
+    <div className={cn("flex flex-col space-y-1.5 px-4 py-3.5", className)} {...props}>
       {children}
     </div>
   )
@@ -87,10 +87,7 @@ export function CardHeader({
 export function CardTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
-      className={cn(
-        "font-semibold text-lg leading-none tracking-tight text-gray-900 dark:text-gray-100",
-        className
-      )}
+      className={cn("font-semibold text-lg leading-none tracking-tight text-ink", className)}
       {...props}
     />
   )
@@ -100,13 +97,13 @@ export function CardDescription({
   className,
   ...props
 }: React.HTMLAttributes<HTMLParagraphElement>) {
-  return <p className={cn("text-sm text-gray-500 dark:text-gray-400", className)} {...props} />
+  return <p className={cn("text-sm text-muted", className)} {...props} />
 }
 
 export function CardContent({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("p-6 pt-0", className)} {...props} />
+  return <div className={cn("px-4 pb-4", className)} {...props} />
 }
 
 export function CardFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("flex items-center p-6 pt-0", className)} {...props} />
+  return <div className={cn("flex items-center px-4 pb-4", className)} {...props} />
 }

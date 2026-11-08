@@ -1,8 +1,10 @@
 "use client"
 import { View, Text, Pressable } from "../../lib/primitives"
 import * as React from "react"
-import { Modal, type ViewProps, type TextProps } from "react-native-web"
+import { createPortal } from "react-dom"
+import { Modal, Platform, type ViewProps, type TextProps } from "react-native-web"
 import { cn } from "../../lib/utils"
+import { useAnchoredOverlay, type OverlayAlign } from "../../lib/use-anchored-overlay"
 
 export interface DropdownMenuProps {
   children: React.ReactNode
@@ -10,15 +12,19 @@ export interface DropdownMenuProps {
   onOpenChange?: (open: boolean) => void
 }
 
-const DropdownContext = React.createContext<{
+interface DropdownContextValue {
   open: boolean
   setOpen: (open: boolean) => void
-} | null>(null)
+  anchorRef: React.RefObject<HTMLElement | null>
+}
+
+const DropdownContext = React.createContext<DropdownContextValue | null>(null)
 
 function DropdownMenu({ children, open: controlledOpen, onOpenChange }: DropdownMenuProps) {
   const [internalOpen, setInternalOpen] = React.useState(false)
   const isControlled = controlledOpen !== undefined
   const open = isControlled ? controlledOpen : internalOpen
+  const anchorRef = React.useRef<HTMLElement | null>(null)
   const setOpen = React.useCallback(
     (val: boolean) => {
       if (!isControlled) setInternalOpen(val)
@@ -27,8 +33,10 @@ function DropdownMenu({ children, open: controlledOpen, onOpenChange }: Dropdown
     [isControlled, onOpenChange]
   )
   return (
-    <DropdownContext.Provider value={{ open, setOpen }}>
-      <View {...({ className: "relative" } as any)}>{children}</View>
+    <DropdownContext.Provider value={{ open, setOpen, anchorRef }}>
+      <View ref={anchorRef} {...({ className: "relative inline-flex w-fit max-w-full" } as any)}>
+        {children}
+      </View>
     </DropdownContext.Provider>
   )
 }
@@ -43,29 +51,75 @@ const DropdownMenuTrigger = React.forwardRef<
     onPress?.(e)
     ;(props as any).onClick?.(e)
   }
+  const a11y = { "aria-haspopup": "menu", "aria-expanded": !!context?.open }
   if (asChild && React.isValidElement(children)) {
     return React.cloneElement(children, {
       ...(children.props as any),
       ...props,
+      ...a11y,
       onPress: handler,
-      onClick: handler,
+      onClick: undefined,
     })
   }
   return (
-    <Pressable ref={ref} onPress={handler} {...props}>
+    <Pressable ref={ref} onPress={handler} {...a11y} {...props}>
       {children}
     </Pressable>
   )
 })
 DropdownMenuTrigger.displayName = "DropdownMenuTrigger"
 
+const MENU_SURFACE =
+  "z-50 min-w-[12rem] max-w-[calc(100vw-1rem)] overflow-hidden rounded-md border border-line bg-surface p-1 text-ink shadow-[0_8px_24px_rgba(0,0,0,0.14)]"
+
+function WebMenuContent({
+  context,
+  align,
+  className,
+  children,
+  ...props
+}: ViewProps & { context: DropdownContextValue; align: OverlayAlign; className?: string }) {
+  const { overlayRef, style } = useAnchoredOverlay({
+    open: context.open,
+    onClose: () => context.setOpen(false),
+    align,
+    anchorRef: context.anchorRef,
+  })
+  return createPortal(
+    <div
+      ref={overlayRef}
+      role="menu"
+      style={style}
+      className={cn(
+        MENU_SURFACE,
+        "flex flex-col animate-in fade-in transition-none duration-150",
+        className
+      )}
+      {...(props as any)}
+    >
+      {children}
+    </div>,
+    document.body
+  )
+}
+
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof View>,
-  ViewProps & { className?: string; align?: "start" | "end" | "center"; sideOffset?: number }
->(({ className, children, align: _align, sideOffset: _sideOffset, ...props }, ref) => {
+  ViewProps & { className?: string; align?: OverlayAlign; sideOffset?: number }
+>(({ className, children, align = "start", sideOffset: _sideOffset, ...props }, ref) => {
   const context = React.useContext(DropdownContext)
   if (!context?.open) return null
 
+  // Web: anchored under the trigger, dismissed by an outside press or Escape.
+  if (Platform.OS === "web" && typeof document !== "undefined") {
+    return (
+      <WebMenuContent context={context} align={align} className={className} {...props}>
+        {children}
+      </WebMenuContent>
+    )
+  }
+
+  // Native: bottom sheet style modal.
   return (
     <Modal
       visible={context.open}
@@ -75,19 +129,10 @@ const DropdownMenuContent = React.forwardRef<
     >
       <Pressable
         onPress={() => context.setOpen(false)}
-        {...({ className: "flex-1 bg-black/10 justify-end sm:justify-center items-center" } as any)}
+        {...({ className: "flex-1 bg-black/30 justify-end items-center" } as any)}
       >
         <Pressable onPress={(e) => e.stopPropagation()}>
-          <View
-            ref={ref}
-            {...({
-              className: cn(
-                "z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-80 zoom-in-95",
-                className
-              ),
-            } as any)}
-            {...props}
-          >
+          <View ref={ref} {...({ className: cn(MENU_SURFACE, className) } as any)} {...props}>
             {children}
           </View>
         </Pressable>
@@ -104,6 +149,7 @@ const DropdownMenuItem = React.forwardRef<
   const context = React.useContext(DropdownContext)
   return (
     <Pressable
+      role="menuitem"
       ref={ref}
       onPress={(e) => {
         context?.setOpen(false)
@@ -112,7 +158,7 @@ const DropdownMenuItem = React.forwardRef<
       }}
       {...({
         className: cn(
-          "relative flex-row items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent",
+          "relative flex min-h-11 w-full flex-row items-center rounded-sm px-3 py-2 text-left text-sm outline-none transition-colors duration-[120ms] hover:bg-surface-2 focus-visible:bg-surface-2",
           className
         ),
       } as any)}
@@ -146,7 +192,7 @@ const DropdownMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <View
     ref={ref}
-    {...({ className: cn("-mx-1 my-1 h-px bg-muted", className) } as any)}
+    {...({ className: cn("-mx-1 my-1 h-px bg-line-2", className) } as any)}
     {...props}
   />
 ))

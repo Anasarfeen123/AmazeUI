@@ -63,7 +63,7 @@ export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
 
   if (!mounted) {
     return (
-      <View className={cn("p-2 rounded-xl bg-card border border-border", className)}>
+      <View className={cn("rounded-sm border border-line bg-surface p-2", className)}>
         <View className="w-5 h-5" />
       </View>
     )
@@ -75,7 +75,7 @@ export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
     <View className={cn("relative", className)}>
       <Pressable
         onPress={() => setOpen(!open)}
-        className="flex items-center justify-center p-2 rounded-xl bg-card border border-border hover:bg-muted/60 transition-colors"
+        className="flex min-h-11 min-w-11 items-center justify-center rounded-sm border border-line bg-surface p-2 transition-colors duration-[120ms] hover:bg-surface-2"
       >
         <Icon className="w-5 h-5 text-foreground/80" />
       </Pressable>
@@ -86,12 +86,12 @@ export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
           <View
             className={cn(
               "absolute z-50 top-full mt-1 left-1/2 -translate-x-1/2",
-              "w-44 rounded-2xl bg-card/90 backdrop-blur-2xl border border-border shadow-xl overflow-hidden",
-              "animate-in fade-in slide-in-from-top-2 duration-200"
+              "w-44 overflow-hidden rounded-md border border-line bg-surface shadow-xl",
+              "animate-in fade-in duration-200"
             )}
           >
             <View className="flex flex-col p-2 gap-1">
-              <Text className="text-xs font-semibold text-muted-foreground/70 px-2 pt-1">Mode</Text>
+              <Text className="px-2 pt-1 text-xs font-medium text-muted">Mode</Text>
               <View className="flex flex-row gap-1">
                 <Pressable
                   onPress={() => {
@@ -99,10 +99,10 @@ export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
                     setOpen(false)
                   }}
                   className={cn(
-                    "flex flex-row items-center justify-center gap-1.5 flex-1 px-3 py-2 rounded-xl text-sm font-medium transition-colors",
+                    "flex min-h-11 flex-1 flex-row items-center justify-center gap-1.5 rounded-sm px-3 py-2 text-sm font-medium transition-colors duration-[120ms]",
                     theme === "light"
-                      ? "bg-info/10 text-info"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      ? "bg-accent-soft text-accent"
+                      : "text-muted hover:text-ink hover:bg-surface-2"
                   )}
                 >
                   <SunIcon className="w-4 h-4" />
@@ -114,10 +114,10 @@ export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
                     setOpen(false)
                   }}
                   className={cn(
-                    "flex flex-row items-center justify-center gap-1.5 flex-1 px-3 py-2 rounded-xl text-sm font-medium transition-colors",
+                    "flex min-h-11 flex-1 flex-row items-center justify-center gap-1.5 rounded-sm px-3 py-2 text-sm font-medium transition-colors duration-[120ms]",
                     theme === "dark"
-                      ? "bg-info/10 text-info"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      ? "bg-accent-soft text-accent"
+                      : "text-muted hover:text-ink hover:bg-surface-2"
                   )}
                 >
                   <MoonIcon className="w-4 h-4" />
@@ -125,11 +125,9 @@ export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
                 </Pressable>
               </View>
 
-              <View className="h-px bg-border my-1" />
+              <View className="my-1 h-px bg-line-2" />
 
-              <Text className="text-xs font-semibold text-muted-foreground/70 px-2 pt-1">
-                Accent
-              </Text>
+              <Text className="px-2 pt-1 text-xs font-medium text-muted">Accent</Text>
               <View className="grid grid-cols-2 gap-1">
                 {PALETTE_OPTIONS.map((p) => {
                   const active = p.id === paletteId
@@ -141,18 +139,18 @@ export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
                         setOpen(false)
                       }}
                       className={cn(
-                        "flex flex-row items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-colors",
+                        "flex min-h-11 flex-row items-center gap-2 rounded-sm px-3 py-2 text-sm font-medium transition-colors duration-[120ms]",
                         active
-                          ? "bg-info/10 text-info"
-                          : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                          ? "bg-accent-soft text-accent"
+                          : "text-muted hover:text-ink hover:bg-surface-2"
                       )}
                     >
                       <View
-                        className="w-3 h-3 rounded-full shrink-0 border border-border"
+                        className="h-3 w-3 shrink-0 rounded-full border border-line"
                         style={{ backgroundColor: p.swatches[0] }}
                       />
                       <Text className="text-xs">{p.label}</Text>
-                      {active && <CheckIcon className="w-3 h-3 ml-auto shrink-0 text-info" />}
+                      {active && <CheckIcon className="ml-auto h-3 w-3 shrink-0 text-accent" />}
                     </Pressable>
                   )
                 })}

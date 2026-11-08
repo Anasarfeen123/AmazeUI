@@ -79,8 +79,7 @@ function formatSemesterName(semId: string): string {
   return `${termName} ${year1}-${year2}`
 }
 
-const navButtonBase =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/40"
+const navButtonBase = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
 
 export default function NavigationTabs({
   activeTab,
@@ -1257,9 +1256,7 @@ export default function NavigationTabs({
         >
           {mobilePanel === "primary" && (
             <div className="flex items-center gap-1.5 px-1 pb-3">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">
-                Active Sem:
-              </span>
+              <span className="text-[11px] font-bold text-muted">Active Sem:</span>
               <div className="relative flex items-center">
                 <OptionPicker
                   value={settings.currSemesterID || semesterIDs[semesterIDs.length - 2]}
@@ -1277,15 +1274,13 @@ export default function NavigationTabs({
           {librarySearchQuery ? (
             filteredSearchItems.length === 0 ? (
               <div className="py-12 text-center">
-                <p className="text-sm font-semibold text-gray-400 dark:text-gray-500">
+                <p className="text-sm font-semibold text-muted">
                   No modules found matching "{librarySearchQuery}"
                 </p>
               </div>
             ) : (
               <div className="space-y-2">
-                <h3 className="px-1 text-[11px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">
-                  Search Results
-                </h3>
+                <h3 className="px-1 text-[11px] font-semibold text-muted">Search Results</h3>
                 <div className="grid grid-cols-1 gap-2 min-[380px]:grid-cols-2">
                   {filteredSearchItems.map((item) => {
                     const Icon = item.icon
@@ -1297,12 +1292,12 @@ export default function NavigationTabs({
                           setIsAppLibraryOpen(false)
                           setLibrarySearchQuery("")
                         }}
-                        className="flex min-h-[56px] items-center gap-3 rounded-2xl border border-gray-100 bg-white p-3.5 text-left shadow-xs transition-all active:scale-[0.98] dark:border-gray-800/80 dark:bg-gray-900"
+                        className="flex min-h-[56px] items-center gap-3 rounded-md border border-gray-100 bg-white p-3.5 text-left shadow-xs transition-colors dark:border-gray-800/80 dark:bg-gray-900"
                       >
                         <div className="rounded-xl bg-info-surface p-2 text-info shrink-0">
                           <Icon className="h-4.5 w-4.5 stroke-[2]" />
                         </div>
-                        <span className="text-xs font-bold leading-tight text-gray-700 dark:text-gray-300">
+                        <span className="text-xs font-bold leading-tight text-ink-2">
                           {item.label}
                         </span>
                       </button>
@@ -1314,9 +1309,7 @@ export default function NavigationTabs({
           ) : mobilePanel === "primary" ? (
             primaryGroups.map((group) => (
               <div key={group.name} className="space-y-2">
-                <h3 className="px-1 text-[11px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">
-                  {group.name}
-                </h3>
+                <h3 className="px-1 text-[11px] font-semibold text-muted">{group.name}</h3>
                 <div className="grid grid-cols-1 gap-2 min-[380px]:grid-cols-2">
                   {group.items.map((item) => {
                     const Icon = item.icon
@@ -1328,18 +1321,18 @@ export default function NavigationTabs({
                           item.action()
                           if (!isPanelTrigger) setIsAppLibraryOpen(false)
                         }}
-                        className="flex min-h-[56px] w-full items-center justify-between rounded-2xl border border-gray-100 bg-white p-3.5 text-left shadow-xs transition-all active:scale-[0.98] dark:border-gray-800/80 dark:bg-gray-900"
+                        className="flex min-h-[56px] w-full items-center justify-between rounded-md border border-gray-100 bg-white p-3.5 text-left shadow-xs transition-colors dark:border-gray-800/80 dark:bg-gray-900"
                       >
                         <div className="flex min-w-0 items-center gap-3">
                           <div className="rounded-xl bg-info-surface p-2 text-info shrink-0">
                             <Icon className="h-4.5 w-4.5 stroke-[2]" />
                           </div>
-                          <span className="truncate text-xs font-bold leading-tight text-gray-700 dark:text-gray-300">
+                          <span className="truncate text-xs font-bold leading-tight text-ink-2">
                             {item.label}
                           </span>
                         </div>
                         {isPanelTrigger && (
-                          <ChevronRight className="h-3.5 w-3.5 shrink-0 text-gray-400" />
+                          <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted" />
                         )}
                       </button>
                     )
@@ -1359,12 +1352,12 @@ export default function NavigationTabs({
                         item.action()
                         setIsAppLibraryOpen(false)
                       }}
-                      className="flex min-h-[56px] items-center gap-3 rounded-2xl border border-gray-100 bg-white p-3.5 text-left shadow-xs transition-all active:scale-[0.98] dark:border-gray-800/80 dark:bg-gray-900"
+                      className="flex min-h-[56px] items-center gap-3 rounded-md border border-gray-100 bg-white p-3.5 text-left shadow-xs transition-colors dark:border-gray-800/80 dark:bg-gray-900"
                     >
-                      <div className="rounded-xl bg-purple-50 p-2 text-purple-600 shrink-0 dark:bg-purple-950/30 dark:text-purple-400">
+                      <div className="shrink-0 rounded-sm bg-accent-soft p-2 text-accent">
                         <Icon className="h-4.5 w-4.5 stroke-[2]" />
                       </div>
-                      <span className="text-xs font-bold leading-tight text-gray-700 dark:text-gray-300">
+                      <span className="text-xs font-bold leading-tight text-ink-2">
                         {item.label.replace("Academics ", "")}
                       </span>
                     </button>
@@ -1384,12 +1377,12 @@ export default function NavigationTabs({
                         item.action()
                         setIsAppLibraryOpen(false)
                       }}
-                      className="flex min-h-[56px] items-center gap-3 rounded-2xl border border-gray-100 bg-white p-3.5 text-left shadow-xs transition-all active:scale-[0.98] dark:border-gray-800/80 dark:bg-gray-900"
+                      className="flex min-h-[56px] items-center gap-3 rounded-md border border-gray-100 bg-white p-3.5 text-left shadow-xs transition-colors dark:border-gray-800/80 dark:bg-gray-900"
                     >
-                      <div className="rounded-xl bg-amber-50 p-2 text-amber-600 shrink-0 dark:bg-amber-950/30 dark:text-amber-400">
+                      <div className="rounded-xl bg-warn-soft p-2 text-warn shrink-0">
                         <Icon className="h-4.5 w-4.5 stroke-[2]" />
                       </div>
-                      <span className="text-xs font-bold leading-tight text-gray-700 dark:text-gray-300">
+                      <span className="text-xs font-bold leading-tight text-ink-2">
                         {item.label.replace("Hostel ", "")}
                       </span>
                     </button>
@@ -1403,18 +1396,16 @@ export default function NavigationTabs({
             className="shrink-0 space-y-2 border-t border-gray-200/50 bg-gray-50/80 px-5 py-4 dark:border-gray-800/50 dark:bg-black/60"
             style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
           >
-            <h4 className="px-0.5 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">
-              Interface Theme
-            </h4>
+            <h4 className="px-0.5 text-[11px] font-semibold text-muted">Interface Theme</h4>
             <div className="flex w-full gap-1 rounded-xl border border-gray-200/20 bg-gray-200/50 p-1 dark:border-gray-800/50 dark:bg-gray-900/50">
               {["light", "dark", "system"].map((t) => (
                 <button
                   key={t}
                   onClick={() => handleThemeChange(t)}
-                  className={`flex min-h-[36px] flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-black capitalize transition-all ${
+                  className={`flex min-h-[36px] flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-semibold capitalize transition-colors ${
                     theme === t
                       ? "bg-white text-info shadow-xs dark:bg-black"
-                      : "text-gray-500 hover:text-gray-950 dark:text-gray-400 dark:hover:text-white"
+                      : "text-muted hover:text-ink"
                   }`}
                 >
                   {t === "light" && <Sun className="h-3.5 w-3.5" />}
@@ -1425,26 +1416,24 @@ export default function NavigationTabs({
               ))}
             </div>
 
-            <h4 className="px-0.5 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mt-3">
-              API Server
-            </h4>
+            <h4 className="px-0.5 text-[11px] font-semibold text-muted mt-3">API Server</h4>
             <div className="flex w-full gap-1 rounded-xl border border-gray-200/20 bg-gray-200/50 p-1 dark:border-gray-800/50 dark:bg-gray-900/50">
               <button
                 onClick={() => onApiChange(primaryApiUrl)}
-                className={`flex min-h-[36px] flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-black capitalize transition-all ${
+                className={`flex min-h-[36px] flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-semibold capitalize transition-colors ${
                   activeApi === primaryApiUrl
                     ? "bg-white text-info shadow-xs dark:bg-black"
-                    : "text-gray-500 hover:text-gray-950 dark:text-gray-400 dark:hover:text-white"
+                    : "text-muted hover:text-ink"
                 }`}
               >
                 Primary
               </button>
               <button
                 onClick={() => onApiChange(backupApiUrl)}
-                className={`flex min-h-[36px] flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-black capitalize transition-all ${
+                className={`flex min-h-[36px] flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-xs font-semibold capitalize transition-colors ${
                   activeApi === backupApiUrl
                     ? "bg-white text-info shadow-xs dark:bg-black"
-                    : "text-gray-500 hover:text-gray-950 dark:text-gray-400 dark:hover:text-white"
+                    : "text-muted hover:text-ink"
                 }`}
               >
                 Backup
@@ -1489,7 +1478,7 @@ export default function NavigationTabs({
               <div className="flex items-center gap-0.5">
                 <button
                   onClick={handleReloadClick}
-                  className={`relative group rounded-xl p-1.5 text-sidebar-foreground/ transition-all duration-300 hover:bg-sidebar-accent hover:text-sidebar-foreground hover:scale-105 ${navButtonBase}`}
+                  className={`relative group rounded-xl p-1.5 text-sidebar-foreground/ transition-colors duration-300 hover:bg-sidebar-accent hover:text-sidebar-foreground ${navButtonBase}`}
                   title="Reload data"
                   aria-label="Reload data"
                 >
@@ -1499,11 +1488,11 @@ export default function NavigationTabs({
                 </button>
                 <button
                   onClick={() => persistSidebarState(!settings.isSidebarCollapsed)}
-                  className={`relative group rounded-xl p-1.5 text-sidebar-foreground/ transition-all duration-300 hover:bg-sidebar-accent hover:text-sidebar-foreground hover:scale-105 ${navButtonBase}`}
+                  className={`relative group rounded-xl p-1.5 text-sidebar-foreground/ transition-colors duration-300 hover:bg-sidebar-accent hover:text-sidebar-foreground ${navButtonBase}`}
                   title="Collapse sidebar"
                   aria-label="Collapse sidebar"
                 >
-                  <Menu className="h-4.5 w-4.5 stroke-[1.9] transition-transform group-hover:scale-110" />
+                  <Menu className="h-4.5 w-4.5 stroke-[1.9] transition-transform" />
                 </button>
               </div>
             )}
@@ -1523,7 +1512,7 @@ export default function NavigationTabs({
                 {/* Left-aligned clean Semester Summary Card */}
                 <div className="mt-3 rounded-lg border border-sidebar-border bg-sidebar-accent/50 p-2.5 text-[11px] space-y-1.5 shadow-2xs">
                   <div className="flex items-center justify-between">
-                    <div className="font-semibold text-sidebar-foreground/75 tracking-wide text-[10px] uppercase">
+                    <div className="text-xs font-medium text-sidebar-foreground/75">
                       Current Semester
                     </div>
                     <div className="relative flex items-center">
@@ -1553,7 +1542,7 @@ export default function NavigationTabs({
                       >
                         <span className="text-sidebar-foreground/">CGPA</span>
                         <span
-                          className={`font-semibold text-sidebar-foreground transition-all duration-300 ${settings.CGPAHidden ? "blur-[4.5px] select-none" : ""}`}
+                          className={`font-semibold text-sidebar-foreground transition-colors duration-300 ${settings.CGPAHidden ? "blur-[4.5px] select-none" : ""}`}
                         >
                           {marksData?.cgpa?.cgpa || "-"}
                         </span>
@@ -1579,7 +1568,7 @@ export default function NavigationTabs({
                     >
                       <span className="text-sidebar-foreground/">Attendance</span>
                       <span
-                        className={`font-semibold ${attendancePercentage?.percentage < 75 ? "text-rose-400" : "text-emerald-400"}`}
+                        className={`font-semibold ${attendancePercentage?.percentage < 75 ? "text-danger" : "text-ok"}`}
                       >
                         {attendanceValue}
                       </span>
@@ -1612,14 +1601,14 @@ export default function NavigationTabs({
                   data-sidebar-nav="true"
                   onClick={openCommandPalette}
                   onKeyDown={(event) => handleNavKeyDown(event, openCommandPalette)}
-                  className={`group flex w-full items-center gap-2 rounded-xl border border-sidebar-border bg-sidebar-accent/50 px-3 py-2 text-left text-xs text-sidebar-foreground/ transition-all duration-300 hover:bg-sidebar-accent hover:border-sidebar-border hover:shadow-sm dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:scale-[1.02] ${navButtonBase}`}
+                  className={`group flex w-full items-center gap-2 rounded-xl border border-sidebar-border bg-sidebar-accent/50 px-3 py-2 text-left text-xs text-sidebar-foreground/ transition-colors duration-300 hover:bg-sidebar-accent hover:border-sidebar-border hover:shadow-sm dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.05)]] ${navButtonBase}`}
                   aria-label="Open command palette"
                 >
                   <Command className="h-4 w-4 shrink-0 text-sidebar-foreground/ transition-colors group-hover:text-sidebar-foreground/" />
                   <span className="flex-1 truncate transition-colors group-hover:text-sidebar-foreground/">
                     Search anything...
                   </span>
-                  <kbd className="rounded-md bg-sidebar-accent border border-sidebar-border px-1.5 py-0.5 text-[9px] font-bold text-sidebar-foreground/ shadow-sm transition-colors group-hover:bg-sidebar-accent group-hover:text-sidebar-foreground">
+                  <kbd className="rounded-md bg-sidebar-accent border border-sidebar-border px-1.5 py-0.5 text-[11px] font-bold text-sidebar-foreground/ shadow-sm transition-colors group-hover:bg-sidebar-accent group-hover:text-sidebar-foreground">
                     ⌘K
                   </kbd>
                 </button>
@@ -1755,7 +1744,7 @@ export default function NavigationTabs({
                   <div key={group.id} className="relative flex justify-center group/rail">
                     <button
                       onClick={() => toggleRailPopover(group.id)}
-                      className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 hover:scale-110 ${
+                      className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-300 ${
                         isActive
                           ? railActiveStyles
                           : "text-sidebar-foreground/ hover:bg-sidebar-accent hover:text-sidebar-foreground border border-transparent"
@@ -1855,11 +1844,11 @@ export default function NavigationTabs({
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0.95, x: -10 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
-              className="absolute left-[76px] top-12 z-50 w-56 rounded-2xl border border-sidebar-border bg-popover p-2 text-popover-foreground shadow-2xl"
+              className="absolute left-[76px] top-12 z-50 w-56 rounded-md border border-sidebar-border bg-popover p-2 text-popover-foreground shadow-lg"
             >
               {activeRailGroup === "account" ? (
                 <div>
-                  <div className="px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.15em] text-sidebar-foreground/ border-b border-sidebar-border pb-1.5 mb-1.5">
+                  <div className="px-2.5 py-1 text-[11px] font-bold tracking-[0.15em] text-sidebar-foreground/ border-b border-sidebar-border pb-1.5 mb-1.5">
                     Account
                   </div>
                   <div className="space-y-1">
@@ -1979,7 +1968,7 @@ export default function NavigationTabs({
                 <div>
                   <button
                     onClick={() => setActiveRailGroup("study")}
-                    className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-bold text-sidebar-foreground/ hover:text-sidebar-foreground transition-colors border-b border-sidebar-border pb-1.5 mb-1.5 w-full text-left"
+                    className="flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold text-sidebar-foreground/ hover:text-sidebar-foreground transition-colors border-b border-sidebar-border pb-1.5 mb-1.5 w-full text-left"
                   >
                     <ArrowLeft className="h-3 w-3" />
                     <span>Back to Study</span>
@@ -2015,7 +2004,7 @@ export default function NavigationTabs({
                 <div>
                   <button
                     onClick={() => setActiveRailGroup("campus")}
-                    className="flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-bold text-sidebar-foreground/ hover:text-sidebar-foreground transition-colors border-b border-sidebar-border pb-1.5 mb-1.5 w-full text-left"
+                    className="flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold text-sidebar-foreground/ hover:text-sidebar-foreground transition-colors border-b border-sidebar-border pb-1.5 mb-1.5 w-full text-left"
                   >
                     <ArrowLeft className="h-3 w-3" />
                     <span>Back to Campus</span>
@@ -2044,7 +2033,7 @@ export default function NavigationTabs({
                 </div>
               ) : (
                 <div>
-                  <div className="px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.15em] text-sidebar-foreground/ border-b border-sidebar-border pb-1.5 mb-1.5">
+                  <div className="px-2.5 py-1 text-[11px] font-bold tracking-[0.15em] text-sidebar-foreground/ border-b border-sidebar-border pb-1.5 mb-1.5">
                     {activeRailGroup === "study" && "Study"}
                     {activeRailGroup === "campus" && "Campus"}
                     {activeRailGroup === "tools" && "Tools"}
@@ -2069,12 +2058,12 @@ export default function NavigationTabs({
                                 setActiveRailGroup(null)
                               }
                             }}
-                            className={`group relative flex w-full items-center gap-3 rounded-xl border px-3 py-2 text-xs font-medium transition-all duration-200 ${navButtonBase} ${
+                            className={`group relative flex w-full items-center gap-3 rounded-xl border px-3 py-2 text-xs font-medium transition-colors duration-200 ${navButtonBase} ${
                               item.isActive ? activeStyles : inactiveStyles
                             }`}
                           >
                             <item.icon
-                              className={`h-4.5 w-4.5 shrink-0 transition-all duration-300 ${item.isActive ? "text-info scale-110" : "text-sidebar-foreground/ group-hover:text-sidebar-foreground"}`}
+                              className={`h-4.5 w-4.5 shrink-0 transition-colors duration-300 ${item.isActive ? "text-info" : "text-sidebar-foreground/ group-hover:text-sidebar-foreground"}`}
                             />
                             <span className="truncate transition-transform duration-300">
                               {item.label}

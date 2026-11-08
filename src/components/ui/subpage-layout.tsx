@@ -26,12 +26,8 @@ export function SubpageLayout({
         <View className="flex flex-row items-center gap-3 min-w-0">
           <BackButton onClick={onBack} />
           <View className="min-w-0">
-            <Text className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 truncate tracking-tight">
-              {title}
-            </Text>
-            {subtitle && (
-              <Text className="text-xs text-gray-500 dark:text-gray-400 truncate">{subtitle}</Text>
-            )}
+            <Text className="text-xl font-semibold text-ink truncate tracking-tight">{title}</Text>
+            {subtitle && <Text className="text-xs text-muted truncate">{subtitle}</Text>}
           </View>
         </View>
         {action && <View className="shrink-0 ml-2">{action}</View>}
@@ -42,12 +38,10 @@ export function SubpageLayout({
         <View className="flex flex-row items-center gap-3">
           <BackButton onClick={onBack} />
           <View>
-            <Text className="text-2xl md:text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 leading-tight tracking-tight">
+            <Text className="text-2xl md:text-3xl font-semibold text-ink leading-tight tracking-tight">
               {title}
             </Text>
-            {subtitle && (
-              <Text className="text-sm text-gray-500 dark:text-gray-400 mt-1">{subtitle}</Text>
-            )}
+            {subtitle && <Text className="text-sm text-muted mt-1">{subtitle}</Text>}
           </View>
         </View>
         {action && <View>{action}</View>}

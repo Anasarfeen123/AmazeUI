@@ -50,10 +50,8 @@ const iconMap = {
 }
 
 const styleMap = {
-  error:
-    "bg-red-50 border border-red-200 text-red-800 dark:bg-red-950/30 dark:border-red-900/40 dark:text-red-300",
-  warning:
-    "bg-amber-50 border border-amber-200 text-amber-800 dark:bg-amber-950/30 dark:border-amber-900/40 dark:text-amber-300",
+  error: "bg-danger-soft border border-danger/40 text-danger",
+  warning: "bg-warn-soft border border-warn/40 text-warn",
 }
 
 export function ErrorDisplay({

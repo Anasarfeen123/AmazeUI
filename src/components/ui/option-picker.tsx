@@ -4,6 +4,7 @@ import * as React from "react"
 import { createPortal } from "react-dom"
 import { Modal } from "react-native-web"
 import { cn } from "../../lib/utils"
+import { useAnchoredOverlay } from "../../lib/use-anchored-overlay"
 
 export interface OptionPickerOption {
   value: string
@@ -91,7 +92,6 @@ const OptionPicker = React.forwardRef<React.ElementRef<typeof View>, OptionPicke
     const [query, setQuery] = React.useState("")
     const isMobile = useIsMobile()
     const triggerRef = React.useRef<HTMLButtonElement>(null)
-    const [position, setPosition] = React.useState({ top: 0, left: 0, width: 0 })
 
     const selected = options.find((o) => o.value === value)
 
@@ -103,12 +103,13 @@ const OptionPicker = React.forwardRef<React.ElementRef<typeof View>, OptionPicke
         )
       : options
 
-    React.useEffect(() => {
-      if (open && !isMobile && triggerRef.current) {
-        const rect = triggerRef.current.getBoundingClientRect()
-        setPosition({ top: rect.bottom + 6, left: rect.left, width: rect.width })
-      }
-    }, [open, isMobile])
+    const { overlayRef, style: overlayStyle } = useAnchoredOverlay({
+      open: open && !isMobile,
+      onClose: () => setOpen(false),
+      anchorRef: triggerRef as React.RefObject<HTMLElement | null>,
+      matchWidth: true,
+      minWidth: 240,
+    })
 
     React.useEffect(() => {
       if (!open) setQuery("")
@@ -155,10 +156,10 @@ const OptionPicker = React.forwardRef<React.ElementRef<typeof View>, OptionPicke
                   key={opt.value}
                   onPress={() => handleSelect(opt)}
                   className={cn(
-                    "flex flex-row items-center gap-3 px-4 py-3 transition-colors mx-1 rounded-lg",
+                    "mx-1 flex min-h-11 flex-row items-center justify-start gap-3 rounded-sm px-3 py-2 text-left transition-colors duration-[120ms]",
                     active
-                      ? "bg-info/10 text-info font-semibold"
-                      : "text-foreground hover:bg-muted/70"
+                      ? "bg-accent-soft text-accent font-semibold"
+                      : "text-foreground hover:bg-surface-2"
                   )}
                 >
                   <Text className={cn("text-sm flex-1", active ? "font-semibold" : "font-medium")}>
@@ -177,11 +178,13 @@ const OptionPicker = React.forwardRef<React.ElementRef<typeof View>, OptionPicke
       <View ref={ref} className={cn("relative", className)}>
         <Pressable
           ref={triggerRef as any}
-          onPress={() => !disabled && setOpen(true)}
+          onPress={() => !disabled && setOpen((o) => !o)}
+          aria-haspopup="listbox"
+          aria-expanded={open}
           className={cn(
-            "flex flex-row items-center justify-between gap-2 h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm",
-            "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-            disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-muted/30",
+            "flex min-h-11 w-full flex-row items-center justify-between gap-2 rounded-sm border border-line bg-surface px-3 py-1 text-sm",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+            disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-surface-2",
             !selected && "text-muted-foreground/60"
           )}
         >
@@ -196,20 +199,16 @@ const OptionPicker = React.forwardRef<React.ElementRef<typeof View>, OptionPicke
           typeof document !== "undefined" &&
           createPortal(
             <>
-              <Pressable className="fixed inset-0 z-50" onPress={() => setOpen(false)} />
               <View
+                ref={overlayRef}
+                role="listbox"
                 {...({
                   className: cn(
-                    "fixed z-50 bg-popover border border-border rounded-xl shadow-xl overflow-hidden",
-                    "animate-in fade-in slide-in-from-top-2 duration-200",
-                    "min-w-[240px]"
+                    "overflow-hidden rounded-md border border-line bg-surface text-ink shadow-[0_8px_24px_rgba(0,0,0,0.14)]",
+                    "animate-in fade-in transition-none duration-150"
                   ),
                 } as any)}
-                style={{
-                  top: position.top,
-                  left: position.left,
-                  width: Math.max(position.width, 240),
-                }}
+                style={overlayStyle as any}
               >
                 <View className="max-h-[320px] flex flex-col">{listContent}</View>
               </View>
@@ -225,7 +224,7 @@ const OptionPicker = React.forwardRef<React.ElementRef<typeof View>, OptionPicke
             onRequestClose={() => setOpen(false)}
           >
             <View className="flex-1 items-center justify-center bg-black/60 p-4">
-              <View className="w-full max-w-md max-h-[85vh] bg-background rounded-2xl border border-border shadow-2xl overflow-hidden">
+              <View className="w-full max-w-md max-h-[85vh] overflow-hidden rounded-md border border-line bg-background shadow-xl">
                 {listContent}
               </View>
             </View>

@@ -36,13 +36,12 @@ export function Modal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="fixed inset-0 bg-black/70" />
+      <div className="fixed inset-0 bg-black/45 dark:bg-black/60" />
       <div
         className={cn(
           "relative w-full",
           maxWidth,
-          "bg-white text-gray-900 border border-gray-200 shadow-2xl rounded-3xl",
-          "dark:bg-gray-950 dark:text-gray-100 dark:border-gray-800",
+          "rounded-lg border border-line bg-surface text-ink shadow-[0_16px_48px_rgba(0,0,0,0.18)]",
           className
         )}
         onClick={(e) => e.stopPropagation()}
@@ -50,7 +49,9 @@ export function Modal({
         {showClose && (
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors dark:bg-gray-800 dark:hover:bg-gray-700"
+            aria-label="Close"
+            type="button"
+            className="absolute right-2 top-2 z-10 grid h-11 w-11 place-items-center rounded-sm text-ink-2 transition-colors duration-[120ms] hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             <svg
               width="16"
@@ -61,7 +62,7 @@ export function Modal({
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="text-gray-500"
+              aria-hidden="true"
             >
               <path d="M18 6 6 18" />
               <path d="m6 6 12 12" />
@@ -70,7 +71,7 @@ export function Modal({
         )}
         {title && (
           <div className="px-6 pt-5 pb-2">
-            <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">{title}</h2>
+            <h2 className="text-lg font-semibold tracking-tight text-ink">{title}</h2>
           </div>
         )}
         <div className={cn(noPadding ? "" : "p-6", !title && !noPadding && "pt-6")}>{children}</div>

@@ -8,22 +8,19 @@ export interface StatusBadgeProps extends React.HTMLAttributes<HTMLSpanElement> 
 const StatusBadge = React.forwardRef<HTMLSpanElement, StatusBadgeProps>(
   ({ status, className, ...props }, ref) => {
     const styles = {
-      pending:
-        "bg-[var(--semantic-warning)]/15 text-[var(--semantic-warning)] border-[var(--semantic-warning)]/20",
-      processing: "bg-accent/15 text-accent border-accent/20 animate-pulse",
-      success:
-        "bg-[var(--semantic-success)]/15 text-[var(--semantic-success)] border-[var(--semantic-success)]/20",
-      error: "bg-destructive/15 text-destructive border-destructive/20",
-      warning:
-        "bg-[var(--semantic-warning)]/15 text-[var(--semantic-warning)] border-[var(--semantic-warning)]/20",
-      info: "bg-muted text-muted-foreground border-border/50",
+      pending: "border-warn/20 bg-warn-soft text-warn",
+      processing: "border-accent/20 bg-accent-soft text-accent",
+      success: "border-ok/20 bg-ok-soft text-ok",
+      error: "border-danger/20 bg-danger-soft text-danger",
+      warning: "border-warn/20 bg-warn-soft text-warn",
+      info: "border-line-2 bg-surface-2 text-muted",
     }
 
     return (
       <span
         ref={ref}
         className={cn(
-          "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border",
+          "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium",
           styles[status],
           className
         )}

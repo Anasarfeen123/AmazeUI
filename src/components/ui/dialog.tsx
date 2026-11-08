@@ -75,12 +75,16 @@ const DialogContent = React.forwardRef<
       animationType="fade"
       onRequestClose={() => onOpenChange(false)}
     >
-      <View {...({ className: "flex-1 items-center justify-center bg-black/80" } as any)}>
+      <View
+        {...({
+          className: "flex-1 items-center justify-center bg-black/45 p-4 dark:bg-black/60",
+        } as any)}
+      >
         <View
           ref={ref}
           {...({
             className: cn(
-              "w-full max-w-lg rounded-xl border border-border bg-background p-6 shadow-lg sm:rounded-[1rem]",
+              "w-full max-w-lg rounded-lg border border-line bg-surface p-6 text-ink shadow-[0_16px_48px_rgba(0,0,0,0.18)]",
               className
             ),
           } as any)}

@@ -85,25 +85,20 @@ export function ErrorDiagnosticCard({
   }
 
   return (
-    <main className="min-h-screen w-full bg-slate-50 px-4 text-foreground transition-colors duration-300 dark:bg-[#03060F] flex items-center justify-center py-10">
+    <main className="flex min-h-screen w-full items-center justify-center bg-background px-4 py-10 text-ink">
       <div className="w-full max-w-2xl animate-in fade-in duration-300">
-        <Card className="w-full border-slate-200 bg-white/70 backdrop-blur-md shadow-2xl dark:border-neutral-900 dark:bg-neutral-950/40 rounded-3xl overflow-hidden relative">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/5 rounded-bl-full pointer-events-none" />
-
+        <Card className="relative w-full overflow-hidden">
           <CardHeader className="text-center pt-8">
             <div className="flex justify-center mb-6">
-              <div className="relative flex items-center justify-center w-20 h-20 rounded-full bg-rose-500/10 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 animate-pulse">
-                <AlertCircleIcon className="w-10 h-10" />
-                <div className="absolute inset-0 rounded-full border border-rose-500/30 animate-ping duration-2000 pointer-events-none" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-danger-soft text-danger">
+                <AlertCircleIcon className="h-7 w-7" />
               </div>
             </div>
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-gray-500">
-              System Diagnostic
-            </p>
-            <CardTitle className="text-xl md:text-2xl font-black tracking-tight text-slate-900 dark:text-white mt-1 leading-snug">
+            <p className="text-xs text-muted">Something went wrong</p>
+            <CardTitle className="text-xl md:text-2xl font-semibold tracking-tight text-ink mt-1 leading-snug">
               {title}
             </CardTitle>
-            <CardDescription className="text-xs md:text-sm mt-2 text-slate-500 dark:text-gray-400 font-medium max-w-md mx-auto leading-relaxed">
+            <CardDescription className="text-xs md:text-sm mt-2 text-muted max-w-md mx-auto leading-relaxed">
               {description}
             </CardDescription>
           </CardHeader>
@@ -150,8 +145,8 @@ export function ErrorDiagnosticCard({
                 onClick={copyReport}
                 variant="outline"
                 className={cn(
-                  "rounded-xl font-bold text-xs py-2 min-h-[38px] transition-all",
-                  copied && "text-emerald-500 border-emerald-500 bg-emerald-500/5"
+                  "rounded-xl font-bold text-xs py-2 min-h-[38px] transition-colors",
+                  copied && "text-ok border-ok/40 bg-ok-soft"
                 )}
               >
                 {copied ? "Copied Report" : "Copy Report"}
@@ -169,35 +164,27 @@ export function ErrorDiagnosticCard({
               </TabsList>
 
               <TabsContent value="summary" className="mt-4 focus-visible:outline-none">
-                <div className="grid gap-3 rounded-2xl border border-slate-200/60 dark:border-neutral-900 bg-slate-50/50 dark:bg-neutral-950/20 p-4 text-xs font-semibold text-slate-700 dark:text-gray-300 leading-relaxed">
+                <div className="grid gap-3 rounded-md border border-line bg-surface-2 p-4 text-xs font-semibold text-ink-2 leading-relaxed">
                   <p className="flex justify-between border-b border-slate-100 dark:border-neutral-900/50 pb-2">
-                    <span className="text-slate-400 dark:text-gray-500 font-bold uppercase tracking-wider text-[9px]">
-                      Error Message
-                    </span>
-                    <span className="truncate max-w-[70%] font-extrabold text-slate-900 dark:text-white">
+                    <span className="text-muted font-bold text-[11px]">Error Message</span>
+                    <span className="truncate max-w-[70%] font-semibold text-ink">
                       {error?.message ?? "Unknown client-side exception"}
                     </span>
                   </p>
                   <p className="flex justify-between border-b border-slate-100 dark:border-neutral-900/50 pb-2">
-                    <span className="text-slate-400 dark:text-gray-500 font-bold uppercase tracking-wider text-[9px]">
-                      Digest Hash
-                    </span>
-                    <span className="font-mono text-[10px] text-slate-500">
+                    <span className="text-muted font-bold text-[11px]">Digest Hash</span>
+                    <span className="font-mono text-[11px] text-slate-500">
                       {error?.digest ?? "none"}
                     </span>
                   </p>
                   <p className="flex justify-between border-b border-slate-100 dark:border-neutral-900/50 pb-2">
-                    <span className="text-slate-400 dark:text-gray-500 font-bold uppercase tracking-wider text-[9px]">
-                      Source Route
-                    </span>
-                    <span className="truncate max-w-[70%] font-mono text-[10px] text-slate-500">
+                    <span className="text-muted font-bold text-[11px]">Source Route</span>
+                    <span className="truncate max-w-[70%] font-mono text-[11px] text-slate-500">
                       {runtimeInfo?.href ?? "collecting..."}
                     </span>
                   </p>
                   <p className="flex justify-between border-b border-slate-100 dark:border-neutral-900/50 pb-2">
-                    <span className="text-slate-400 dark:text-gray-500 font-bold uppercase tracking-wider text-[9px]">
-                      Timestamp
-                    </span>
+                    <span className="text-muted font-bold text-[11px]">Timestamp</span>
                     <span className="font-medium">
                       {runtimeInfo?.timestamp
                         ? new Date(runtimeInfo.timestamp).toLocaleString()
@@ -205,15 +192,9 @@ export function ErrorDiagnosticCard({
                     </span>
                   </p>
                   <p className="flex justify-between">
-                    <span className="text-slate-400 dark:text-gray-500 font-bold uppercase tracking-wider text-[9px]">
-                      Connection Status
-                    </span>
+                    <span className="text-muted font-bold text-[11px]">Connection Status</span>
                     <span
-                      className={
-                        runtimeInfo?.online
-                          ? "text-emerald-500 font-bold"
-                          : "text-amber-500 font-bold"
-                      }
+                      className={runtimeInfo?.online ? "text-ok font-bold" : "text-warn font-bold"}
                     >
                       {runtimeInfo ? (runtimeInfo.online ? "Online" : "Offline") : "collecting..."}
                     </span>
@@ -222,7 +203,7 @@ export function ErrorDiagnosticCard({
               </TabsContent>
 
               <TabsContent value="technical" className="mt-4 focus-visible:outline-none">
-                <pre className="max-h-60 overflow-auto whitespace-pre-wrap rounded-2xl border border-slate-200 dark:border-neutral-900 bg-slate-50/50 dark:bg-neutral-950/20 p-4 text-[10px] font-mono leading-relaxed text-slate-600 dark:text-gray-400">
+                <pre className="max-h-60 overflow-auto whitespace-pre-wrap rounded-md border border-line bg-surface-2 p-4 text-[11px] font-mono leading-relaxed text-ink-2">
                   {JSON.stringify(report, null, 2)}
                 </pre>
               </TabsContent>

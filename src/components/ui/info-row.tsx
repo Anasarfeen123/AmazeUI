@@ -11,8 +11,8 @@ export interface InfoRowProps {
 export function InfoRow({ icon, children, className, iconClassName }: InfoRowProps) {
   return (
     <View className={cn("flex flex-row items-center gap-2", className)}>
-      <View className={cn("text-gray-400 dark:text-gray-500 shrink-0", iconClassName)}>{icon}</View>
-      <Text className="text-sm text-gray-700 dark:text-gray-300">{children}</Text>
+      <View className={cn("text-muted shrink-0", iconClassName)}>{icon}</View>
+      <Text className="text-sm text-ink-2">{children}</Text>
     </View>
   )
 }

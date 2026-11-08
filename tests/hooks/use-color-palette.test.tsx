@@ -10,6 +10,13 @@ describe("useColorPalette", () => {
 
   it("exposes all palette options", () => {
     const { result } = renderHook(() => useColorPalette())
+    expect(result.current.palettes.map(({ label }) => label)).toEqual([
+      "Ink",
+      "Forest",
+      "Rust",
+      "Plum",
+      "Graphite",
+    ])
     expect(result.current.palettes).toHaveLength(PALETTE_OPTIONS.length)
   })
 
@@ -17,14 +24,18 @@ describe("useColorPalette", () => {
     const { result } = renderHook(() => useColorPalette())
 
     act(() => {
-      result.current.setPaletteId("ocean")
+      result.current.setPaletteId("forest")
     })
 
-    expect(result.current.paletteId).toBe("ocean")
+    expect(result.current.paletteId).toBe("forest")
     const settings = JSON.parse(localStorage.getItem("club_hub_settings") ?? "{}")
-    expect(settings).toMatchObject({ colorPalette: "ocean" })
-    expect(localStorage.getItem("accent")).toBe("ocean")
-    expect(document.documentElement.getAttribute("data-color-palette")).toBe("ocean")
+    expect(settings).toMatchObject({ colorPalette: "forest" })
+    expect(localStorage.getItem("accent")).toBe("forest")
+    expect(document.documentElement.getAttribute("data-color-palette")).toBe("forest")
+    expect(document.documentElement.style.getPropertyValue("--palette-accent-light")).toBe(
+      "#1f7a4d"
+    )
+    expect(document.documentElement.style.getPropertyValue("--palette-accent-dark")).toBe("#6fcf9b")
   })
 
   it("restores a saved palette on mount", () => {
@@ -36,7 +47,7 @@ describe("useColorPalette", () => {
   })
 
   it("clears attributes when switching back to default", () => {
-    localStorage.setItem("club_hub_settings", JSON.stringify({ colorPalette: "ocean" }))
+    localStorage.setItem("club_hub_settings", JSON.stringify({ colorPalette: "forest" }))
     const { result } = renderHook(() => useColorPalette())
 
     act(() => {
@@ -44,6 +55,14 @@ describe("useColorPalette", () => {
     })
 
     expect(document.documentElement.hasAttribute("data-color-palette")).toBe(false)
-    expect(document.documentElement.style.getPropertyValue("--primary")).toBe("")
+    expect(document.documentElement.style.getPropertyValue("--palette-accent-light")).toBe("")
+  })
+
+  it("migrates a saved legacy palette to its matching design seed", () => {
+    localStorage.setItem("club_hub_settings", JSON.stringify({ colorPalette: "ocean" }))
+
+    const { result } = renderHook(() => useColorPalette())
+
+    expect(result.current.paletteId).toBe("default")
   })
 })

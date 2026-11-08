@@ -23,7 +23,8 @@ export function CircularProgress({
   midThreshold = defaultMidThreshold,
   className,
 }: CircularProgressProps) {
-  const pathColor = value < threshold ? "#EF4444" : value < midThreshold ? "#FACC15" : "#10B981"
+  const pathColor =
+    value < threshold ? "var(--danger)" : value < midThreshold ? "var(--warn)" : "var(--ok)"
 
   return (
     <div className={className} style={{ width: size, height: size }}>
@@ -34,7 +35,7 @@ export function CircularProgress({
         styles={buildStyles({
           pathColor,
           textColor: "currentColor",
-          trailColor: "rgba(163, 198, 240, 0.2)",
+          trailColor: "var(--surface-2)",
           strokeLinecap: "round",
           pathTransitionDuration: 0.5,
         })}

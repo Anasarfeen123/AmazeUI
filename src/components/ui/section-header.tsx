@@ -18,13 +18,11 @@ export function SectionHeader({ icon, title, subtitle, action, className }: Sect
       )}
     >
       <View>
-        <Text className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex flex-row items-center gap-2">
+        <Text className="text-2xl font-bold text-ink flex flex-row items-center gap-2">
           {icon}
           {title}
         </Text>
-        {subtitle && (
-          <Text className="text-gray-500 dark:text-gray-400 text-sm mt-1">{subtitle}</Text>
-        )}
+        {subtitle && <Text className="text-muted text-sm mt-1">{subtitle}</Text>}
       </View>
       {action && <View>{action}</View>}
     </View>

@@ -12,10 +12,10 @@ export function BackButton({ onClick, className }: BackButtonProps) {
     <Pressable
       onPress={onClick}
       className={cn(
-        "p-2 rounded-full bg-white dark:bg-gray-900",
-        "shadow-sm border border-gray-200 dark:border-gray-800",
-        "hover:bg-gray-100 dark:hover:bg-gray-800",
-        "transition-all duration-200",
+        "p-2 rounded-full bg-surface",
+        "shadow-sm border border-line",
+        "hover:bg-surface-2",
+        "transition-colors duration-200",
         className
       )}
     >
@@ -28,7 +28,7 @@ export function BackButton({ onClick, className }: BackButtonProps) {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="text-gray-600 dark:text-gray-400"
+        className="text-ink-2"
       >
         <path d="M19 12H5" />
         <polyline points="12 19 5 12 12 5" />

@@ -17,9 +17,7 @@ export interface ViewModeToggleProps {
 
 export function ViewModeToggle({ options, value, onChange, className }: ViewModeToggleProps) {
   return (
-    <View
-      className={cn("flex flex-row bg-gray-100 dark:bg-gray-900 p-1 rounded-lg w-max", className)}
-    >
+    <View className={cn("flex flex-row bg-surface-2 p-1 rounded-lg w-max", className)}>
       {options.map((opt) => (
         <Pressable
           key={opt.key}
@@ -27,7 +25,7 @@ export function ViewModeToggle({ options, value, onChange, className }: ViewMode
           className={cn(
             "p-1.5 rounded-md transition-colors",
             value === opt.key
-              ? "bg-white dark:bg-black text-gray-900 dark:text-gray-100 shadow-sm"
+              ? "bg-surface text-ink shadow-sm"
               : "text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
           )}
         >

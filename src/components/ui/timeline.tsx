@@ -5,13 +5,13 @@ import { type ViewProps, type TextProps } from "react-native"
 import { cn } from "../../lib/utils"
 
 const dotColors = {
-  blue: "bg-blue-500 dark:bg-blue-400 border-blue-200 dark:border-blue-800",
-  emerald: "bg-emerald-500 dark:bg-emerald-400 border-emerald-200 dark:border-emerald-800",
-  purple: "bg-purple-500 dark:bg-purple-400 border-purple-200 dark:border-purple-800",
-  amber: "bg-amber-500 dark:bg-amber-400 border-amber-200 dark:border-amber-800",
-  pink: "bg-pink-500 dark:bg-pink-400 border-pink-200 dark:border-pink-800",
-  indigo: "bg-indigo-500 dark:bg-indigo-400 border-indigo-200 dark:border-indigo-800",
-  gray: "bg-gray-400 dark:bg-gray-500 border-gray-200 dark:border-gray-700",
+  blue: "bg-accent border-accent-soft",
+  emerald: "bg-ok border-ok-soft",
+  purple: "bg-course-3 border-surface-2",
+  amber: "bg-warn border-warn-soft",
+  pink: "bg-course-7 border-surface-2",
+  indigo: "bg-accent border-accent-soft",
+  gray: "bg-muted border-surface-2",
 }
 
 export interface TimelineProps extends ViewProps {
@@ -38,17 +38,17 @@ const TimelineItem = React.forwardRef<React.ElementRef<typeof View>, TimelineIte
   ({ className, dotColor = "blue", children, ...props }, ref) => (
     <View
       ref={ref}
-      {...({ className: cn("relative flex flex-row gap-4 pb-10 pl-0 group", className) } as any)}
+      {...({
+        className: cn(
+          "relative flex flex-row gap-3.5 pb-5 last:pb-0 [&:last-child_.tl-rail]:hidden",
+          className
+        ),
+      } as any)}
       {...props}
     >
-      <View className="flex flex-col items-center shrink-0 pt-1.5">
-        <View
-          className={cn(
-            "w-3.5 h-3.5 rounded-full border-2 shrink-0 z-10 ring-2 ring-background",
-            dotColors[dotColor]
-          )}
-        />
-        <View className="w-0.5 flex-1 bg-gradient-to-b from-border/80 to-border/20 mt-2" />
+      <View className="flex w-2.5 shrink-0 flex-col items-center pt-1">
+        <View className={cn("h-2.5 w-2.5 shrink-0 rounded-full", dotColors[dotColor])} />
+        <View className="tl-rail mt-1.5 -mb-4 w-px flex-1 bg-line" />
       </View>
       <View className="flex-1 min-w-0">{children}</View>
     </View>
@@ -66,11 +66,7 @@ const TimelineCard = React.forwardRef<React.ElementRef<typeof View>, TimelineCar
     <View
       ref={ref}
       {...({
-        className: cn(
-          "rounded-xl border border-border bg-card p-4 shadow-sm",
-          "transition-all duration-200 group-hover:shadow-md group-hover:border-foreground/20",
-          className
-        ),
+        className: cn("min-w-0", className),
       } as any)}
       {...props}
     >
@@ -90,10 +86,7 @@ const TimelineDate = React.forwardRef<React.ElementRef<typeof Text>, TimelineDat
     <Text
       ref={ref}
       {...({
-        className: cn(
-          "text-xs font-semibold text-muted-foreground/60 uppercase tracking-wider mb-1.5",
-          className
-        ),
+        className: cn("mb-1 font-mono text-xs text-muted tabular-nums", className),
       } as any)}
       {...props}
     >
@@ -113,7 +106,7 @@ const TimelineTitle = React.forwardRef<React.ElementRef<typeof Text>, TimelineTi
     <Text
       ref={ref}
       {...({
-        className: cn("text-base font-semibold text-foreground leading-snug", className),
+        className: cn("text-[14.5px] font-semibold leading-snug text-ink", className),
       } as any)}
       {...props}
     >
@@ -135,7 +128,7 @@ const TimelineDescription = React.forwardRef<
   <Text
     ref={ref}
     {...({
-      className: cn("text-sm text-muted-foreground mt-1.5 whitespace-pre-wrap", className),
+      className: cn("mt-1 whitespace-pre-wrap text-[13.5px] leading-normal text-ink-2", className),
     } as any)}
     {...props}
   >
@@ -154,10 +147,7 @@ const TimelineActions = React.forwardRef<React.ElementRef<typeof View>, Timeline
     <View
       ref={ref}
       {...({
-        className: cn(
-          "flex flex-row items-center gap-2 mt-3 pt-3 border-t border-border/50",
-          className
-        ),
+        className: cn("mt-2 flex flex-row flex-wrap items-center gap-2", className),
       } as any)}
       {...props}
     >

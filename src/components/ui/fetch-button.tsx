@@ -44,15 +44,13 @@ export const FetchButton = React.forwardRef<HTMLButtonElement, FetchButtonProps>
     const sizeClasses = size === "sm" ? "px-3 py-1.5 text-xs" : "px-4 py-2 text-sm"
 
     const variants = {
-      primary: "bg-blue-600 hover:bg-blue-700 text-white shadow-sm border border-blue-700",
-      success:
-        "bg-green-500/10 hover:bg-green-500/20 text-green-700 dark:text-green-400 border border-green-500/20",
-      danger:
-        "bg-red-500/10 hover:bg-red-500/20 text-red-700 dark:text-red-400 border border-red-500/20",
+      primary: "border border-accent bg-accent text-background hover:bg-accent/90",
+      success: "border border-transparent bg-ok-soft text-ok hover:bg-ok-soft/70",
+      danger: "border border-transparent bg-danger-soft text-danger hover:bg-danger-soft/70",
       gradient:
-        "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg",
-      ghost:
-        "bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 border border-transparent",
+        // v2: kept for compatibility; renders as primary.
+        "border border-accent bg-accent text-background hover:bg-accent/90",
+      ghost: "bg-transparent hover:bg-surface-2 text-ink-2 border border-transparent",
     }
 
     return (
@@ -62,7 +60,7 @@ export const FetchButton = React.forwardRef<HTMLButtonElement, FetchButtonProps>
         onClick={onClick}
         disabled={disabled || loading}
         className={cn(
-          "inline-flex items-center gap-2 rounded-lg font-medium transition-all duration-300 cursor-pointer",
+          "inline-flex items-center gap-2 rounded-lg font-medium transition-colors duration-300 cursor-pointer",
           sizeClasses,
           variants[variant],
           (disabled || loading) && "opacity-50 cursor-not-allowed",

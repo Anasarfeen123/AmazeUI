@@ -6,8 +6,15 @@ import { cn } from "../../lib/utils"
 
 const Table = React.forwardRef<React.ElementRef<typeof View>, ViewProps & { className?: string }>(
   ({ className, ...props }, ref) => (
-    <View {...({ className: "w-full overflow-hidden" } as any)}>
-      <View ref={ref} {...({ className: cn("w-full text-sm", className) } as any)} {...props} />
+    <View
+      {...({ className: "w-full overflow-x-auto rounded-md border border-line bg-surface" } as any)}
+    >
+      <View
+        ref={ref}
+        role="table"
+        {...({ className: cn("w-full min-w-max text-sm", className) } as any)}
+        {...props}
+      />
     </View>
   )
 )
@@ -20,7 +27,10 @@ const TableHeader = React.forwardRef<
   <View
     ref={ref}
     {...({
-      className: cn("flex flex-row items-center border-b border-border bg-muted/50", className),
+      className: cn(
+        "flex flex-col border-b border-line bg-surface-2 [&>*]:border-b-0 [&>*]:hover:bg-transparent",
+        className
+      ),
     } as any)}
     {...props}
   />
@@ -33,7 +43,7 @@ const TableBody = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <View
     ref={ref}
-    {...({ className: cn("flex flex-col [&_>_view:last-child]:border-0", className) } as any)}
+    {...({ className: cn("flex flex-col [&>*:last-child]:border-b-0", className) } as any)}
     {...props}
   />
 ))
@@ -45,9 +55,10 @@ const TableRow = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <View
     ref={ref}
+    role="row"
     {...({
       className: cn(
-        "flex flex-row items-center border-b border-border transition-colors hover:bg-muted/50",
+        "flex min-h-11 flex-row items-center border-b border-line-2 transition-colors duration-[120ms] hover:bg-surface-2",
         className
       ),
     } as any)}
@@ -64,16 +75,14 @@ const TableHead = React.forwardRef<
     ref={ref}
     {...({
       className: cn(
-        "h-12 px-4 flex justify-center text-left align-middle font-medium text-muted-foreground",
+        "min-w-0 flex-1 basis-0 items-start justify-center px-4 py-2 text-left",
         className
       ),
     } as any)}
     {...props}
   >
     {typeof children === "string" ? (
-      <Text {...({ className: "font-semibold text-muted-foreground text-sm" } as any)}>
-        {children}
-      </Text>
+      <Text {...({ className: "text-[12.5px] font-medium text-muted" } as any)}>{children}</Text>
     ) : (
       children
     )}
@@ -85,9 +94,15 @@ const TableCell = React.forwardRef<
   React.ElementRef<typeof View>,
   ViewProps & { className?: string }
 >(({ className, children, ...props }, ref) => (
-  <View ref={ref} {...({ className: cn("p-4 align-middle", className) } as any)} {...props}>
+  <View
+    ref={ref}
+    {...({
+      className: cn("min-w-0 flex-1 basis-0 items-start justify-center px-4 py-2.5", className),
+    } as any)}
+    {...props}
+  >
     {typeof children === "string" ? (
-      <Text {...({ className: "text-foreground text-sm" } as any)}>{children}</Text>
+      <Text {...({ className: "truncate text-sm text-ink" } as any)}>{children}</Text>
     ) : (
       children
     )}

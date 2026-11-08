@@ -62,7 +62,7 @@ export const Pressable = React.forwardRef<
         type="button"
         onClick={onPress || onClick}
         className={cn(
-          "flex flex-col items-stretch justify-start bg-transparent border-none p-0 m-0 cursor-pointer outline-none relative",
+          "flex flex-col items-stretch justify-start bg-transparent border-0 border-solid p-0 m-0 cursor-pointer outline-none relative",
           className
         )}
         style={style as any}

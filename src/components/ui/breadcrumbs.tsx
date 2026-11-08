@@ -15,10 +15,7 @@ const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>(
   ({ items, className, ...props }, ref) => (
     <nav
       ref={ref}
-      className={cn(
-        "flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2",
-        className
-      )}
+      className={cn("mb-2 flex items-center gap-2 text-[13px] text-muted", className)}
       {...props}
     >
       {items.map((item, idx) => (
@@ -26,14 +23,21 @@ const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>(
           {item.href ? (
             <a
               href={item.href}
-              className={cn("hover:text-accent transition-colors", item.active && "text-accent")}
+              className={cn(
+                "transition-colors hover:text-ink",
+                item.active && "font-medium text-ink"
+              )}
             >
               {item.label}
             </a>
           ) : (
-            <span className={item.active ? "text-accent" : ""}>{item.label}</span>
+            <span className={item.active ? "font-medium text-ink" : ""}>{item.label}</span>
           )}
-          {idx < items.length - 1 && <span className="opacity-40">/</span>}
+          {idx < items.length - 1 && (
+            <span aria-hidden="true" className="text-line">
+              /
+            </span>
+          )}
         </React.Fragment>
       ))}
     </nav>

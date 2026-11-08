@@ -68,7 +68,7 @@ export function SettingsPanel({
     <div className={cn("w-full h-full pb-16 px-4 md:px-8 max-w-7xl mx-auto", className)}>
       <div className="relative mt-5 max-w-md">
         <svg
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500"
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
@@ -87,16 +87,14 @@ export function SettingsPanel({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder={searchPlaceholder}
-          className="w-full pl-9 pr-4 py-2 text-sm border border-gray-250 dark:border-gray-800 bg-white/50 dark:bg-slate-900/50 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-info transition-all"
+          className="w-full pl-9 pr-4 py-2 text-sm border border-line bg-surface rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-info transition-colors"
         />
       </div>
 
       <div className="flex flex-col md:flex-row gap-8 items-start relative mt-6">
         {filteredSections.length > 1 && (
-          <aside className="sticky top-6 w-full md:w-56 shrink-0 hidden md:flex flex-col gap-0.5 border-r border-gray-150 dark:border-gray-800/60 pr-4">
-            <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-2.5 mb-2">
-              {sidebarLabel}
-            </div>
+          <aside className="sticky top-6 w-full md:w-56 shrink-0 hidden md:flex flex-col gap-0.5 border-r border-line-2 pr-4">
+            <div className="text-xs font-medium text-muted px-2.5 mb-2">{sidebarLabel}</div>
             {filteredSections.map((sec) => {
               const Icon = sec.icon
               const isActive = activeSection === sec.id
@@ -105,18 +103,13 @@ export function SettingsPanel({
                   key={sec.id}
                   onClick={() => scrollToSection(sec.id)}
                   className={cn(
-                    "flex items-center gap-3 w-full px-3 py-2 text-xs font-semibold rounded-lg text-left transition-all",
+                    "flex items-center gap-3 w-full px-3 py-2 text-xs font-semibold rounded-lg text-left transition-colors",
                     isActive
                       ? "bg-info-surface text-info border border-info/30"
-                      : "text-gray-600 dark:text-gray-450 hover:bg-gray-100/60 dark:hover:bg-slate-800/40 hover:text-gray-900 dark:hover:text-white border border-transparent"
+                      : "text-ink-2 hover:bg-surface-2 hover:text-ink border border-transparent"
                   )}
                 >
-                  <Icon
-                    className={cn(
-                      "w-4 h-4",
-                      isActive ? "text-info" : "text-gray-400 dark:text-gray-500"
-                    )}
-                  />
+                  <Icon className={cn("w-4 h-4", isActive ? "text-info" : "text-muted")} />
                   <span>{sec.label}</span>
                 </button>
               )
@@ -137,19 +130,19 @@ export function SettingsPanel({
                   ref={(el) => {
                     sectionRefs.current[sec.id] = el
                   }}
-                  className="border border-gray-200/85 dark:border-gray-800 bg-white/50 dark:bg-slate-900/50 rounded-2xl overflow-hidden shadow-xs"
+                  className="border border-line bg-surface rounded-md overflow-hidden shadow-xs"
                 >
                   <button
                     onClick={() => setExpandedSection(isOpen ? "" : sec.id)}
-                    className="w-full flex items-center justify-between p-4 font-bold text-gray-850 dark:text-gray-200 hover:bg-gray-100/40 dark:hover:bg-slate-800/30 transition-colors text-left cursor-pointer"
+                    className="w-full flex items-center justify-between p-4 font-bold text-ink hover:bg-surface-2 transition-colors text-left cursor-pointer"
                   >
                     <div className="flex items-center gap-2.5">
                       <Icon className="w-4.5 h-4.5 text-info" />
-                      <span className="text-sm font-extrabold">{sec.label}</span>
+                      <span className="text-sm font-semibold">{sec.label}</span>
                     </div>
                     <svg
                       className={cn(
-                        "w-4 h-4 text-gray-400 transition-transform duration-200",
+                        "w-4 h-4 text-muted transition-transform duration-200",
                         isOpen ? "rotate-90 text-info" : ""
                       )}
                       xmlns="http://www.w3.org/2000/svg"
@@ -166,7 +159,7 @@ export function SettingsPanel({
                     </svg>
                   </button>
                   {isOpen && (
-                    <div className="p-4 border-t border-gray-200 dark:border-gray-850 space-y-5 animate-fadeIn">
+                    <div className="p-4 border-t border-line space-y-5 animate-fadeIn">
                       {renderSection(sec)}
                     </div>
                   )}
@@ -183,11 +176,9 @@ export function SettingsPanel({
                 }}
                 className="scroll-mt-6 space-y-5"
               >
-                <div className="flex items-center gap-2 pb-1 border-b border-gray-150 dark:border-gray-800">
-                  <Icon className="w-5 h-5 text-gray-400 dark:text-gray-500" />
-                  <h2 className="text-sm font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">
-                    {sec.label}
-                  </h2>
+                <div className="flex items-center gap-2 pb-1 border-b border-line">
+                  <Icon className="w-5 h-5 text-muted" />
+                  <h2 className="text-sm font-bold text-muted">{sec.label}</h2>
                 </div>
                 {renderSection(sec)}
               </section>

@@ -27,7 +27,7 @@ export function SidebarProfile({
     return (
       <button
         onClick={onProfileClick}
-        className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all hover:ring-2 hover:ring-white/20"
+        className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors hover:ring-2 hover:ring-white/20"
         title="Account Settings"
       >
         {avatarUrl ? (
@@ -37,7 +37,7 @@ export function SidebarProfile({
             className="h-8 w-8 rounded-full border border-sidebar-border object-cover"
           />
         ) : (
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sidebar-accent text-[10px] font-bold text-sidebar-foreground">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sidebar-accent text-[11px] font-bold text-sidebar-foreground">
             {initials || "ST"}
           </span>
         )}
@@ -61,12 +61,12 @@ export function SidebarProfile({
       <div className="min-w-0 flex-1">
         <span className="block truncate text-xs font-semibold text-sidebar-foreground">{name}</span>
         {degree && (
-          <span className="block truncate text-[10px] text-sidebar-foreground/">{degree}</span>
+          <span className="block truncate text-[11px] text-sidebar-foreground/">{degree}</span>
         )}
       </div>
       <button
         onClick={onLogout}
-        className="rounded-lg p-1.5 text-sidebar-foreground/ transition-colors hover:bg-sidebar-accent hover:text-red-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/40"
+        className="rounded-lg p-1.5 text-sidebar-foreground/ transition-colors hover:bg-sidebar-accent hover:text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         title="Log out"
         aria-label="Log out"
       >
@@ -105,7 +105,7 @@ export function SidebarThemeControl({
     return (
       <button
         onClick={() => onThemeChange?.(theme === "dark" ? "light" : "dark")}
-        className="flex h-8 w-8 items-center justify-center rounded-lg text-sidebar-foreground/ transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/40"
+        className="flex h-8 w-8 items-center justify-center rounded-lg text-sidebar-foreground/ transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         title={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
       >
         {theme === "dark" ? (
@@ -152,9 +152,7 @@ export function SidebarThemeControl({
         className
       )}
     >
-      <span className="text-sidebar-foreground/ text-[8px] font-semibold uppercase tracking-wide">
-        Theme
-      </span>
+      <span className="text-sidebar-foreground/ text-[11px] font-semibold">Theme</span>
       <div className="flex items-center gap-3">
         <button
           onClick={() => onThemeChange?.("light")}
@@ -189,7 +187,7 @@ export function SidebarExpandButton({ onClick, className }: SidebarExpandButtonP
     <button
       onClick={onClick}
       className={cn(
-        "flex h-8 w-8 items-center justify-center rounded-lg text-sidebar-foreground/ transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/40",
+        "flex h-8 w-8 items-center justify-center rounded-lg text-sidebar-foreground/ transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40",
         className
       )}
       title="Expand sidebar"

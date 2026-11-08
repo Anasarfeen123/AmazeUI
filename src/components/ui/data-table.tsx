@@ -24,39 +24,19 @@ export function DataTable({
 }: DataTableProps) {
   if (!data || data.length === 0) {
     return (
-      <div
-        className={cn(
-          "rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950",
-          className
-        )}
-      >
+      <div className={cn("rounded-xl border border-line bg-surface", className)}>
         <div className="p-5">
-          {caption && (
-            <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
-              {caption}
-            </h4>
-          )}
-          <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-4">
-            {emptyMessage}
-          </p>
+          {caption && <h4 className="text-sm font-semibold text-muted mb-4">{caption}</h4>}
+          <p className="text-sm text-muted text-center py-4">{emptyMessage}</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div
-      className={cn(
-        "rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950",
-        className
-      )}
-    >
+    <div className={cn("rounded-xl border border-line bg-surface", className)}>
       <div className="p-5">
-        {caption && (
-          <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
-            {caption}
-          </h4>
-        )}
+        {caption && <h4 className="text-sm font-semibold text-muted mb-4">{caption}</h4>}
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -65,7 +45,7 @@ export function DataTable({
                   <th
                     key={col.key}
                     className={cn(
-                      "text-left py-2 px-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap",
+                      "text-left py-2 px-2 text-xs font-semibold text-muted whitespace-nowrap",
                       col.className
                     )}
                   >
@@ -78,13 +58,10 @@ export function DataTable({
               {data.map((row, ri) => (
                 <tr
                   key={ri}
-                  className="border-b border-gray-100 dark:border-gray-800 last:border-0 hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors"
+                  className="border-b border-line-2 last:border-0 hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors"
                 >
                   {columns.map((col) => (
-                    <td
-                      key={col.key}
-                      className={cn("py-2.5 px-2 text-gray-800 dark:text-gray-200", col.className)}
-                    >
+                    <td key={col.key} className={cn("py-2.5 px-2 text-ink", col.className)}>
                       {col.render ? col.render(row[col.key], row) : (row[col.key] ?? "\u2014")}
                     </td>
                   ))}

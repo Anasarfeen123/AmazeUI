@@ -26,7 +26,7 @@ const Progress = React.forwardRef<React.ElementRef<typeof View>, ProgressProps>(
         {...props}
       >
         <View
-          {...({ className: "h-full bg-primary flex-1 transition-all" } as any)}
+          {...({ className: "h-full bg-primary flex-1 transition-colors" } as any)}
           style={{ width: `${boundedValue}%` }}
         />
       </View>

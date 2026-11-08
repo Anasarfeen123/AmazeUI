@@ -1,8 +1,10 @@
 "use client"
 import { View, Pressable } from "../../lib/primitives"
 import * as React from "react"
-import { Modal, type ViewProps } from "react-native-web"
+import { createPortal } from "react-dom"
+import { Modal, Platform, type ViewProps } from "react-native-web"
 import { cn } from "../../lib/utils"
+import { useAnchoredOverlay, type OverlayAlign } from "../../lib/use-anchored-overlay"
 
 export interface PopoverProps {
   children: React.ReactNode
@@ -10,15 +12,19 @@ export interface PopoverProps {
   onOpenChange?: (open: boolean) => void
 }
 
-const PopoverContext = React.createContext<{
+interface PopoverContextValue {
   open: boolean
   setOpen: (open: boolean) => void
-} | null>(null)
+  anchorRef: React.RefObject<HTMLElement | null>
+}
+
+const PopoverContext = React.createContext<PopoverContextValue | null>(null)
 
 function Popover({ children, open: controlledOpen, onOpenChange }: PopoverProps) {
   const [internalOpen, setInternalOpen] = React.useState(false)
   const isControlled = controlledOpen !== undefined
   const open = isControlled ? controlledOpen : internalOpen
+  const anchorRef = React.useRef<HTMLElement | null>(null)
   const setOpen = React.useCallback(
     (val: boolean) => {
       if (!isControlled) setInternalOpen(val)
@@ -27,8 +33,10 @@ function Popover({ children, open: controlledOpen, onOpenChange }: PopoverProps)
     [isControlled, onOpenChange]
   )
   return (
-    <PopoverContext.Provider value={{ open, setOpen }}>
-      <View {...({ className: "relative" } as any)}>{children}</View>
+    <PopoverContext.Provider value={{ open, setOpen, anchorRef }}>
+      <View ref={anchorRef} {...({ className: "relative inline-flex w-fit max-w-full" } as any)}>
+        {children}
+      </View>
     </PopoverContext.Provider>
   )
 }
@@ -43,29 +51,71 @@ const PopoverTrigger = React.forwardRef<
     onPress?.(e)
     ;(props as any).onClick?.(e)
   }
+  const a11y = { "aria-haspopup": "dialog", "aria-expanded": !!context?.open }
   if (asChild && React.isValidElement(children)) {
     return React.cloneElement(children, {
       ...(children.props as any),
       ...props,
+      ...a11y,
       onPress: handler,
-      onClick: handler,
+      onClick: undefined,
     })
   }
   return (
-    <Pressable ref={ref} onPress={handler} {...props}>
+    <Pressable ref={ref} onPress={handler} {...a11y} {...props}>
       {children}
     </Pressable>
   )
 })
 PopoverTrigger.displayName = "PopoverTrigger"
 
+const SURFACE =
+  "w-72 max-w-[calc(100vw-1rem)] rounded-md border border-line bg-surface p-4 text-ink shadow-[0_8px_24px_rgba(0,0,0,0.14)] outline-none"
+
+function WebPopoverContent({
+  context,
+  align,
+  className,
+  children,
+  ...props
+}: ViewProps & { context: PopoverContextValue; align: OverlayAlign; className?: string }) {
+  const { overlayRef, style } = useAnchoredOverlay({
+    open: context.open,
+    onClose: () => context.setOpen(false),
+    align,
+    anchorRef: context.anchorRef,
+  })
+  return createPortal(
+    <div
+      ref={overlayRef}
+      role="dialog"
+      style={style}
+      className={cn(SURFACE, "animate-in fade-in transition-none duration-150", className)}
+      {...(props as any)}
+    >
+      {children}
+    </div>,
+    document.body
+  )
+}
+
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof View>,
-  ViewProps & { className?: string; align?: "start" | "end" | "center" }
->(({ className, children, align: _align, ...props }, ref) => {
+  ViewProps & { className?: string; align?: OverlayAlign }
+>(({ className, children, align = "center", ...props }, ref) => {
   const context = React.useContext(PopoverContext)
   if (!context?.open) return null
 
+  // Web: anchored under the trigger, dismissed by an outside press or Escape.
+  if (Platform.OS === "web" && typeof document !== "undefined") {
+    return (
+      <WebPopoverContent context={context} align={align} className={className} {...props}>
+        {children}
+      </WebPopoverContent>
+    )
+  }
+
+  // Native: centred modal.
   return (
     <Modal
       visible={context.open}
@@ -78,16 +128,7 @@ const PopoverContent = React.forwardRef<
         {...({ className: "flex-1 bg-transparent justify-center items-center" } as any)}
       >
         <Pressable onPress={(e) => e.stopPropagation()}>
-          <View
-            ref={ref}
-            {...({
-              className: cn(
-                "z-50 w-72 rounded-md border border-border bg-popover p-4 text-popover-foreground shadow-md outline-none",
-                className
-              ),
-            } as any)}
-            {...props}
-          >
+          <View ref={ref} {...({ className: cn(SURFACE, className) } as any)} {...props}>
             {children}
           </View>
         </Pressable>

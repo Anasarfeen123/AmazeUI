@@ -3,19 +3,26 @@ import { useState, useEffect, useCallback } from "react"
 
 export interface PaletteDefinition {
   accent: string
+  darkAccent: string
   background?: string
   surface?: string
 }
 
 const COLOR_PALETTES: Record<string, PaletteDefinition> = {
-  default: { accent: "" },
-  neonPink: { accent: "#ff2bd6", background: "#fff7fd", surface: "#ffffff" },
-  forest: { accent: "#059669", background: "#f8fffb", surface: "#ffffff" },
-  rose: { accent: "#e11d48", background: "#fff8fa", surface: "#ffffff" },
-  amber: { accent: "#d97706", background: "#fffdf6", surface: "#ffffff" },
-  ocean: { accent: "#3b82f6", background: "#f0f7ff", surface: "#ffffff" },
-  lavender: { accent: "#8b5cf6", background: "#f8f6ff", surface: "#ffffff" },
-  sunset: { accent: "#f59e0b", background: "#fffdf6", surface: "#ffffff" },
+  default: { accent: "#24508f", darkAccent: "#8fb4ea" },
+  forest: { accent: "#1f7a4d", darkAccent: "#6fcf9b" },
+  rust: { accent: "#b5470b", darkAccent: "#e9844e" },
+  plum: { accent: "#8b3a8f", darkAccent: "#cf7fd3" },
+  graphite: { accent: "#46524d", darkAccent: "#b9c2be" },
+}
+
+const LEGACY_PALETTE_IDS: Record<string, string> = {
+  neonPink: "plum",
+  rose: "rust",
+  amber: "rust",
+  ocean: "default",
+  lavender: "plum",
+  sunset: "rust",
 }
 
 export interface ColorPaletteOption {
@@ -25,15 +32,16 @@ export interface ColorPaletteOption {
 }
 
 export const PALETTE_OPTIONS: ColorPaletteOption[] = [
-  { id: "default", label: "Default", swatches: ["#0ea5e9", "#ffffff", "#f8fafc"] },
-  { id: "neonPink", label: "Neon Pink", swatches: ["#ff2bd6", "#ffffff", "#fff7fd"] },
-  { id: "forest", label: "Forest", swatches: ["#059669", "#ffffff", "#f7fee7"] },
-  { id: "rose", label: "Rose", swatches: ["#e11d48", "#ffffff", "#fff1f2"] },
-  { id: "amber", label: "Amber", swatches: ["#d97706", "#ffffff", "#fffbeb"] },
-  { id: "ocean", label: "Ocean", swatches: ["#3b82f6", "#ffffff", "#f0f7ff"] },
-  { id: "lavender", label: "Lavender", swatches: ["#8b5cf6", "#ffffff", "#f8f6ff"] },
-  { id: "sunset", label: "Sunset", swatches: ["#f59e0b", "#ffffff", "#fffdf6"] },
+  { id: "default", label: "Ink", swatches: ["#24508f", "#8fb4ea", "#f5f6f5"] },
+  { id: "forest", label: "Forest", swatches: ["#1f7a4d", "#6fcf9b", "#f5f6f5"] },
+  { id: "rust", label: "Rust", swatches: ["#b5470b", "#e9844e", "#f5f6f5"] },
+  { id: "plum", label: "Plum", swatches: ["#8b3a8f", "#cf7fd3", "#f5f6f5"] },
+  { id: "graphite", label: "Graphite", swatches: ["#46524d", "#b9c2be", "#f5f6f5"] },
 ]
+
+function normalizePaletteId(id: string) {
+  return LEGACY_PALETTE_IDS[id] ?? id
+}
 
 function getSettings() {
   if (typeof window === "undefined") return null
@@ -45,7 +53,7 @@ function getSettings() {
   }
 }
 
-function saveSettings(updates: Record<string, any>) {
+function saveSettings(updates: Record<string, unknown>) {
   if (typeof window === "undefined") return
   const current = getSettings() || {}
   const next = { ...current, ...updates }
@@ -57,84 +65,56 @@ export function useColorPalette() {
 
   useEffect(() => {
     const saved = getSettings()
-    if (saved?.colorPalette) {
-      setPaletteIdState(saved.colorPalette)
+    if (typeof saved?.colorPalette === "string") {
+      setPaletteIdState(normalizePaletteId(saved.colorPalette))
     } else {
       const legacyAccent = localStorage.getItem("accent")
-      if (legacyAccent && COLOR_PALETTES[legacyAccent]) {
-        setPaletteIdState(legacyAccent)
+      if (legacyAccent && COLOR_PALETTES[normalizePaletteId(legacyAccent)]) {
+        setPaletteIdState(normalizePaletteId(legacyAccent))
       }
     }
   }, [])
 
   const setPaletteId = useCallback((id: string) => {
-    setPaletteIdState(id)
-    saveSettings({ colorPalette: id })
-    try {
-      localStorage.setItem("accent", id)
-    } catch {}
+    const normalizedId = normalizePaletteId(id)
+    if (!COLOR_PALETTES[normalizedId]) {
+      throw new RangeError(`Unknown color palette: ${id}`)
+    }
+    setPaletteIdState(normalizedId)
+    saveSettings({ colorPalette: normalizedId })
+    localStorage.setItem("accent", normalizedId)
   }, [])
 
   useEffect(() => {
     const root = document.documentElement
-    const selectedId = paletteId
+    const selectedId = normalizePaletteId(paletteId)
     const palette = COLOR_PALETTES[selectedId]
+    const paletteVariables = [
+      "--palette-accent-light",
+      "--palette-accent-dark",
+      "--palette-accent-soft-light",
+      "--palette-accent-soft-dark",
+    ]
 
     if (!palette || selectedId === "default") {
       root.removeAttribute("data-color-palette")
       root.removeAttribute("data-accent")
-      root.style.removeProperty("--theme-accent")
-      root.style.removeProperty("--accent-color")
-      root.style.removeProperty("--accent-foreground-color")
-      root.style.removeProperty("--primary")
-      root.style.removeProperty("--primary-foreground")
-      root.style.removeProperty("--info")
-      root.style.removeProperty("--info-surface")
-      root.style.removeProperty("--ring")
-      root.style.removeProperty("--chart-1")
-      root.style.removeProperty("--chart-2")
-      root.style.removeProperty("--chart-3")
+      paletteVariables.forEach((name) => root.style.removeProperty(name))
       return
     }
 
-    const accent = palette.accent
-    const isDark = document.documentElement.classList.contains("dark")
-    const darkBase = "oklch(0.09 0.015 255)"
-    const darkSurface = "oklch(0.20 0 0)"
-    const lightBase = "oklch(0.982 0.004 247)"
-
     root.setAttribute("data-color-palette", selectedId)
     root.setAttribute("data-accent", selectedId)
-
-    const setVar = (name: string, value: string) => root.style.setProperty(name, value)
-
-    setVar("--theme-accent", accent)
-    setVar("--accent-color", accent)
-    setVar("--accent-foreground-color", isDark ? "#000000" : "#ffffff")
-
-    if (isDark) {
-      setVar("--background", `color-mix(in oklab, ${accent} 6%, ${darkBase})`)
-      setVar("--surface", `color-mix(in oklab, ${accent} 4%, ${darkSurface})`)
-      setVar("--primary", accent)
-      setVar("--primary-foreground", "#ffffff")
-      setVar("--info", accent)
-      setVar("--info-surface", `color-mix(in oklab, ${accent} 18%, transparent)`)
-      setVar("--ring", accent)
-      setVar("--chart-1", accent)
-      setVar("--chart-2", `color-mix(in oklab, ${accent} 70%, #10b981)`)
-      setVar("--chart-3", `color-mix(in oklab, ${accent} 70%, #f59e0b)`)
-    } else {
-      setVar("--background", palette.background || lightBase)
-      setVar("--surface", palette.surface || "#ffffff")
-      setVar("--primary", accent)
-      setVar("--primary-foreground", "#ffffff")
-      setVar("--info", accent)
-      setVar("--info-surface", `color-mix(in oklab, ${accent} 14%, transparent)`)
-      setVar("--ring", accent)
-      setVar("--chart-1", accent)
-      setVar("--chart-2", `color-mix(in oklab, ${accent} 70%, #10b981)`)
-      setVar("--chart-3", `color-mix(in oklab, ${accent} 70%, #f59e0b)`)
-    }
+    root.style.setProperty("--palette-accent-light", palette.accent)
+    root.style.setProperty("--palette-accent-dark", palette.darkAccent)
+    root.style.setProperty(
+      "--palette-accent-soft-light",
+      `color-mix(in oklab, ${palette.accent} 12%, white)`
+    )
+    root.style.setProperty(
+      "--palette-accent-soft-dark",
+      `color-mix(in oklab, ${palette.darkAccent} 12%, #0f1211)`
+    )
   }, [paletteId])
 
   return { paletteId, setPaletteId, palettes: PALETTE_OPTIONS }

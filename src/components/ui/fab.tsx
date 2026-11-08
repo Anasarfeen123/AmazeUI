@@ -14,8 +14,8 @@ export interface FabProps {
 }
 
 const variantStyles = {
-  primary: "bg-foreground text-background hover:bg-foreground/90",
-  secondary: "bg-card text-foreground border border-border hover:bg-muted",
+  primary: "bg-accent text-accent-foreground hover:bg-accent/90",
+  secondary: "bg-surface text-ink border border-line hover:bg-surface-2",
   info: "bg-info text-info-foreground hover:bg-info/90",
 }
 
@@ -44,10 +44,10 @@ const Fab = React.forwardRef<React.ElementRef<typeof View>, FabProps>(
         onPress={onPress}
         disabled={disabled}
         className={cn(
-          "fixed z-50 flex flex-row items-center transition-all duration-200 backdrop-blur-xl shadow-xl active:scale-95",
+          "fixed z-50 flex min-h-11 min-w-11 flex-row items-center transition-colors duration-[120ms]",
           label
-            ? `gap-2.5 pl-4 pr-5 h-12 rounded-2xl ${variantStyles[variant]}`
-            : `items-center justify-center w-14 h-14 rounded-full ${variantStyles[variant]}`,
+            ? `gap-2.5 rounded-sm px-4 py-2 ${variantStyles[variant]}`
+            : `items-center justify-center rounded-full p-0 ${variantStyles[variant]}`,
           positionStyles[position],
           disabled && "opacity-50 pointer-events-none",
           className
@@ -98,12 +98,12 @@ function FabSpeedDial({ icon, actions, position = "bottom-right", className }: F
                   setOpen(false)
                 }}
                 className={cn(
-                  "flex flex-row items-center gap-3 px-4 py-2.5 rounded-xl shadow-lg backdrop-blur-xl transition-all duration-200",
+                  "flex min-h-11 flex-row items-center gap-3 rounded-sm px-4 py-2.5 transition-colors duration-[120ms]",
                   !action.variant || action.variant === "primary"
                     ? "bg-foreground text-background"
                     : action.variant === "danger"
-                      ? "bg-danger text-danger-foreground"
-                      : "bg-card text-foreground border border-border"
+                      ? "bg-danger text-background"
+                      : "bg-surface text-ink border border-line"
                 )}
               >
                 <View className="shrink-0">{action.icon}</View>
@@ -114,7 +114,7 @@ function FabSpeedDial({ icon, actions, position = "bottom-right", className }: F
         )}
         <Pressable
           onPress={() => setOpen(!open)}
-          className="flex flex-row items-center justify-center w-14 h-14 rounded-full bg-foreground text-background shadow-xl transition-all duration-200 hover:bg-foreground/90 active:scale-95"
+          className="flex min-h-11 min-w-11 flex-row items-center justify-center rounded-full bg-accent p-0 text-accent-foreground transition-colors duration-[120ms] hover:bg-accent/90"
         >
           <View className={`transition-transform duration-300 ${open ? "rotate-45" : ""}`}>
             {icon || (

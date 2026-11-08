@@ -44,9 +44,9 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
           ref={ref}
           data-state={openState ? "expanded" : "collapsed"}
           className={cn(
-            "fixed top-4 z-50 hidden h-[calc(100vh-2rem)] flex-col rounded-[24px] border border-sidebar-border bg-sidebar text-sidebar-foreground shadow-lg dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] md:flex",
+            "fixed top-0 z-50 hidden h-screen flex-col border-sidebar-border bg-sidebar text-sidebar-foreground transition-[width] duration-200 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none md:flex",
             openState ? "overflow-hidden w-[280px]" : "overflow-visible w-[72px]",
-            side === "left" ? "left-4" : "right-4",
+            side === "left" ? "left-0 border-r" : "right-0 border-l",
             className
           )}
           {...props}
@@ -95,7 +95,7 @@ SidebarContent.displayName = "SidebarContent"
 
 export const SidebarGroup = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
-    return <div ref={ref} className={cn("flex flex-col gap-1 w-full", className)} {...props} />
+    return <div ref={ref} className={cn("flex w-full flex-col gap-0.5", className)} {...props} />
   }
 )
 SidebarGroup.displayName = "SidebarGroup"
@@ -109,10 +109,7 @@ export const SidebarGroupLabel = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn(
-        "px-3 mb-1 mt-4 text-[10px] font-bold uppercase tracking-[0.1em] text-sidebar-foreground/50",
-        className
-      )}
+      className={cn("mb-1 mt-5 px-2.5 text-[12px] font-medium text-muted first:mt-1", className)}
       {...props}
     />
   )
@@ -134,37 +131,34 @@ export const SidebarItem = React.forwardRef<HTMLButtonElement, SidebarItemProps>
         ref={ref}
         data-active={isActive}
         className={cn(
-          "group relative flex items-center rounded-xl transition-all duration-150 w-full hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-          isOpen ? "gap-3 px-3 py-2 justify-start text-sm" : "justify-center p-3 h-11 w-11 mt-1",
+          "group relative flex w-full items-center rounded-sm transition-colors duration-[120ms] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent [&_svg]:h-[18px] [&_svg]:w-[18px] [&_svg]:stroke-[1.8]",
+          isOpen
+            ? "min-h-9 justify-start gap-2.5 px-2.5 py-1.5 text-[14px]"
+            : "mt-1 h-11 w-11 justify-center",
           isActive
-            ? "bg-sidebar-accent border border-sidebar-border text-info font-semibold shadow-sm"
-            : "text-sidebar-foreground/70 border border-transparent",
+            ? "bg-accent-soft font-semibold text-accent"
+            : "text-ink-2 hover:bg-surface-2 hover:text-ink",
           className
         )}
         {...props}
       >
         <div
-          className={cn(
-            "shrink-0",
-            isActive
-              ? "text-info"
-              : "text-sidebar-foreground/60 group-hover:text-sidebar-foreground"
-          )}
+          className={cn("shrink-0", isActive ? "text-accent" : "text-muted group-hover:text-ink")}
         >
           {icon}
         </div>
         {isOpen && label && (
           <span
-            className={cn("truncate flex-1 text-left", isActive ? "font-semibold" : "font-medium")}
+            className={cn("flex-1 truncate text-left", isActive ? "font-semibold" : "font-normal")}
           >
             {label}
           </span>
         )}
         {isOpen && rightElement && <div className="shrink-0">{rightElement}</div>}
         {!isOpen && label && (
-          <div className="absolute left-full ml-4 hidden group-hover:block z-50 px-3 py-1.5 rounded-lg bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900 text-xs font-medium whitespace-nowrap shadow-xl">
+          <div className="absolute left-full z-50 ml-3 hidden whitespace-nowrap rounded-sm bg-ink px-2.5 py-1.5 text-xs font-medium text-background shadow-[0_8px_24px_rgba(0,0,0,0.14)] group-hover:block group-focus-visible:block">
             {label}
-            <div className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-2 h-2 bg-gray-900 dark:bg-gray-100 rotate-45"></div>
+            <div className="absolute left-0 top-1/2 h-2 w-2 -translate-x-1 -translate-y-1/2 rotate-45 bg-ink"></div>
           </div>
         )}
       </button>
@@ -180,7 +174,7 @@ export const SidebarFooter = React.forwardRef<HTMLDivElement, React.HTMLAttribut
       <div
         ref={ref}
         className={cn(
-          "shrink-0 border-t border-sidebar-border bg-sidebar-accent/30 backdrop-blur-md",
+          "shrink-0 border-t border-line",
           isOpen ? "p-4" : "p-3 flex justify-center",
           className
         )}

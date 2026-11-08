@@ -60,7 +60,7 @@ const TabsList = React.forwardRef<
     ref={ref}
     {...({
       className: cn(
-        "flex-row items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
+        "flex-row items-center justify-center rounded-sm bg-surface-2 p-1 text-muted",
         className
       ),
     } as any)}
@@ -82,8 +82,8 @@ const TabsTrigger = React.forwardRef<
       onPress={() => context.onValueChange(value)}
       {...({
         className: cn(
-          "flex-1 items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5",
-          isSelected ? "bg-background shadow-sm" : "bg-transparent",
+          "flex min-h-11 flex-1 items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5",
+          isSelected ? "bg-surface text-ink" : "bg-transparent",
           className
         ),
       } as any)}
@@ -93,7 +93,7 @@ const TabsTrigger = React.forwardRef<
         <Text
           {...({
             className: cn(
-              "text-sm font-medium transition-all",
+              "text-sm font-medium transition-colors duration-[120ms]",
               isSelected ? "text-foreground" : "text-muted-foreground",
               textClassName
             ),

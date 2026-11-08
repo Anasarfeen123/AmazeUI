@@ -63,7 +63,7 @@ export function ExpandableSection({
       <Pressable
         onPress={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex flex-row items-center justify-between w-full p-4 text-left font-semibold text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors",
+          "flex flex-row items-center justify-between w-full p-4 text-left font-semibold text-ink hover:bg-surface-2 transition-colors",
           headerClassName
         )}
       >
@@ -74,9 +74,9 @@ export function ExpandableSection({
         <View className="flex flex-row items-center gap-3">
           {badge}
           {isOpen ? (
-            <ChevronUpIcon className="w-[18px] h-[18px] text-gray-400" />
+            <ChevronUpIcon className="w-[18px] h-[18px] text-muted" />
           ) : (
-            <ChevronDownIcon className="w-[18px] h-[18px] text-gray-400" />
+            <ChevronDownIcon className="w-[18px] h-[18px] text-muted" />
           )}
         </View>
       </Pressable>

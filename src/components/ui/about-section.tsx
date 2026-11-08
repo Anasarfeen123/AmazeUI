@@ -22,7 +22,7 @@ export function AboutSection({
   buildNumber,
   lastUpdated,
   platform,
-  credits = "MADE WITH ❤️ BY AMAZE CONTINUITY PROJECTS",
+  credits = "Made by Amaze Continuity Projects",
 }: AboutSectionProps) {
   const showWordmark = wordmarkLightSrc || wordmarkDarkSrc
   const hasInfoGrid = version || buildNumber || lastUpdated || platform
@@ -30,7 +30,7 @@ export function AboutSection({
   return (
     <div
       className={cn(
-        "bg-transparent sm:bg-white/50 dark:sm:bg-slate-900/50 sm:rounded-2xl sm:border sm:border-gray-200/80 dark:sm:border-gray-800 p-6 flex flex-col items-center text-center space-y-4",
+        "flex flex-col items-center space-y-4 bg-transparent p-6 text-center sm:rounded-md sm:border sm:border-line sm:bg-surface",
         className
       )}
     >
@@ -50,43 +50,41 @@ export function AboutSection({
               className="h-6 object-contain mx-auto hidden dark:block"
             />
           )}
-          {tagline && <p className="text-xs text-gray-500 dark:text-gray-400">{tagline}</p>}
+          {tagline && <p className="text-xs text-muted">{tagline}</p>}
         </div>
       )}
 
       {hasInfoGrid && (
-        <div className="w-full max-w-xs grid grid-cols-2 gap-x-4 gap-y-2.5 text-xs text-left pt-2 border-t border-gray-150 dark:border-gray-800/60 mt-2">
+        <div className="mt-2 grid w-full max-w-xs grid-cols-2 gap-x-4 gap-y-2.5 border-t border-line-2 pt-2 text-left text-xs">
           {version && (
             <div>
-              <span className="text-gray-400 font-medium block">Version</span>
-              <span className="font-bold text-gray-850 dark:text-gray-200">{version}</span>
+              <span className="block text-muted">Version</span>
+              <span className="font-mono font-medium text-ink">{version}</span>
             </div>
           )}
           {buildNumber && (
             <div>
-              <span className="text-gray-400 font-medium block">Build Number</span>
-              <span className="font-bold text-gray-850 dark:text-gray-200">{buildNumber}</span>
+              <span className="block text-muted">Build</span>
+              <span className="font-mono font-medium text-ink">{buildNumber}</span>
             </div>
           )}
           {lastUpdated && (
             <div>
-              <span className="text-gray-400 font-medium block">Last Updated</span>
-              <span className="font-bold text-gray-850 dark:text-gray-200">{lastUpdated}</span>
+              <span className="block text-muted">Last updated</span>
+              <span className="font-mono font-medium text-ink">{lastUpdated}</span>
             </div>
           )}
           {platform && (
             <div>
-              <span className="text-gray-400 font-medium block">Platform</span>
-              <span className="font-bold text-gray-850 dark:text-gray-200">{platform}</span>
+              <span className="block text-muted">Platform</span>
+              <span className="font-mono font-medium text-ink">{platform}</span>
             </div>
           )}
         </div>
       )}
 
       {credits && (
-        <p className="text-[9px] font-bold text-gray-400 dark:text-gray-500 tracking-widest uppercase pt-2 border-t border-gray-150 dark:border-gray-850/60 w-full">
-          {credits}
-        </p>
+        <p className="w-full border-t border-line-2 pt-2 text-xs text-muted">{credits}</p>
       )}
     </div>
   )

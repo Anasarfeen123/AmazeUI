@@ -16,28 +16,35 @@ export interface MobileBottomNavProps {
   compact?: boolean
 }
 
+/**
+ * Bottom tab bar: a full-width surface with a hairline on top, outline icons
+ * at 22 px and short labels. The active tab is the accent colour and medium
+ * weight; there is no pill or tinted background behind it.
+ */
 export function MobileBottomNav({ items, className, compact }: MobileBottomNavProps) {
   return (
     <View
+      role="navigation"
+      aria-label="Main"
       className={cn(
-        "fixed left-1/2 z-[50] flex w-[min(24rem,calc(100vw-1.5rem))] -translate-x-1/2 flex-row items-center justify-between gap-1 rounded-[1.75rem] border border-white/55 bg-white/65 px-2 py-2 shadow-[0_18px_50px_rgba(15,23,42,0.18)] backdrop-blur-2xl md:hidden dark:border-white/10 dark:bg-gray-950/68 dark:shadow-[0_18px_50px_rgba(0,0,0,0.45)]",
+        "fixed inset-x-0 bottom-0 z-[50] flex flex-row items-stretch justify-around border-t border-line bg-surface px-1.5 pt-1.5 md:hidden",
         className
       )}
-      style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" } as any}
+      style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.5rem)" } as any}
     >
       {items.map((item) => (
         <Pressable
           key={item.id}
           onPress={item.onClick}
+          aria-current={item.isActive ? "page" : undefined}
           className={cn(
-            "flex min-h-[48px] flex-1 flex-col items-center justify-center rounded-[1.35rem] px-3 py-2 text-[10px] font-bold transition-all",
-            item.isActive
-              ? "bg-white/80 text-info shadow-sm dark:bg-white/10 scale-105"
-              : "text-gray-500 hover:bg-white/50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-white"
+            "flex min-h-11 min-w-16 flex-1 flex-col items-center justify-center gap-1 rounded-sm px-2 py-1 text-[11px] transition-colors duration-[120ms]",
+            "[&_svg]:h-[22px] [&_svg]:w-[22px] [&_svg]:stroke-[1.8]",
+            item.isActive ? "font-semibold text-accent" : "font-normal text-muted hover:text-ink"
           )}
         >
-          <View className="shrink-0">{item.icon}</View>
-          {!compact && <Text className="mt-0.5">{item.label}</Text>}
+          <View className="shrink-0 items-center">{item.icon}</View>
+          {!compact && <Text>{item.label}</Text>}
         </Pressable>
       ))}
     </View>

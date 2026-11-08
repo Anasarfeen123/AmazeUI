@@ -26,7 +26,7 @@ export function LoadingScreen({
   return (
     <div
       className={cn(
-        "min-h-screen flex flex-col items-center justify-center bg-slate-50 dark:bg-[#03060F] transition-colors relative overflow-hidden",
+        "min-h-screen flex flex-col items-center justify-center bg-background transition-all relative overflow-hidden",
         className
       )}
     >
@@ -40,12 +40,9 @@ export function LoadingScreen({
         }
       `}</style>
 
-      <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/5 to-purple-500/5 blur-[120px] rounded-full -z-10" />
-
       <div className="flex flex-col items-center space-y-6 max-w-xs text-center z-10">
-        <div className="relative flex items-center justify-center w-24 h-24 rounded-3xl bg-white dark:bg-neutral-900 border border-slate-200/80 dark:border-neutral-800 shadow-2xl animate-pulse">
+        <div className="flex h-20 w-20 items-center justify-center rounded-md border border-line bg-surface">
           <img src={logoSrc} alt={title || "Logo"} className="w-14 h-14 object-contain" />
-          <div className="absolute -inset-1.5 rounded-[28px] border border-blue-500/20 animate-ping duration-3000 pointer-events-none" />
         </div>
 
         <div className="space-y-3 pt-2.5">
@@ -67,26 +64,20 @@ export function LoadingScreen({
               )}
             </>
           )}
-          {showText && (
-            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-gray-500">
-              {title}
-            </p>
-          )}
+          {showText && <p className="text-sm text-muted">{title}</p>}
           {!showWordmark && !showText && subtitle && (
-            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-gray-500">
-              {subtitle}
-            </p>
+            <p className="text-sm text-muted">{subtitle}</p>
           )}
         </div>
 
-        <div className="w-40 h-1 bg-slate-200 dark:bg-neutral-800 rounded-full overflow-hidden relative shadow-inner">
+        <div className="relative h-1 w-40 overflow-hidden rounded-full bg-surface-2">
           {progress !== undefined ? (
             <div
-              className="absolute top-0 bottom-0 left-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-300"
+              className="absolute bottom-0 left-0 top-0 rounded-full bg-accent transition-[width] duration-200"
               style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
             />
           ) : (
-            <div className="absolute top-0 bottom-0 left-0 w-[35%] bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full animate-loaderBar" />
+            <div className="animate-loaderBar absolute bottom-0 left-0 top-0 w-[35%] rounded-full bg-accent motion-reduce:animate-none" />
           )}
         </div>
       </div>

@@ -283,18 +283,19 @@ function scoreCommand(cmd: CommandPaletteItem, query: string): number {
   return 0
 }
 
-const categoryGradients: Record<string, string> = {
-  Navigation: "from-blue-500 to-purple-500",
-  Academics: "from-emerald-500 to-teal-500",
-  Attendance: "from-amber-500 to-orange-500",
-  Profile: "from-violet-500 to-purple-500",
-  Hostel: "from-rose-500 to-pink-500",
-  "Day Scholar": "from-sky-500 to-cyan-500",
-  Settings: "from-gray-500 to-slate-500",
-  Tools: "from-indigo-500 to-blue-500",
-  Events: "from-fuchsia-500 to-pink-500",
-  "Exam Schedule": "from-red-500 to-rose-500",
-  "Academic Calendar": "from-teal-500 to-emerald-500",
+// One neutral dot per category; colour is reserved for courses and status.
+const categoryDot: Record<string, string> = {
+  Navigation: "bg-accent",
+  Academics: "bg-course-1",
+  Attendance: "bg-warn",
+  Profile: "bg-ink-2",
+  Hostel: "bg-course-2",
+  "Day Scholar": "bg-course-8",
+  Settings: "bg-muted",
+  Tools: "bg-course-5",
+  Events: "bg-course-3",
+  "Exam Schedule": "bg-danger",
+  "Academic Calendar": "bg-course-6",
 }
 
 export function CommandPalette({
@@ -572,31 +573,29 @@ export function CommandPalette({
       className="fixed inset-0 z-[70] flex items-end justify-center p-0 md:items-start md:px-4 md:pt-[10vh]"
       onClick={subpage ? undefined : onClose}
     >
-      <div className="fixed inset-0 bg-black/55 backdrop-blur-sm" />
+      <div className="fixed inset-0 bg-black/45 dark:bg-black/60" />
       <div
-        className="relative flex h-[calc(100dvh-env(safe-area-inset-top,0px))] w-full animate-scale-in overflow-hidden rounded-t-3xl border border-white/20 shadow-2xl shadow-black/20 md:h-auto md:max-h-[78vh] md:max-w-3xl md:rounded-2xl dark:border-white/5"
+        className="relative flex h-[calc(100dvh-env(safe-area-inset-top,0px))] w-full overflow-hidden rounded-t-lg border border-line shadow-[0_16px_48px_rgba(0,0,0,0.18)] md:h-auto md:max-h-[78vh] md:max-w-3xl md:rounded-lg"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={handleKeyDown}
       >
-        <div className="absolute -top-40 -left-40 w-80 h-80 rounded-full bg-blue-500/20 blur-[100px] pointer-events-none" />
-        <div className="absolute -bottom-40 -right-40 w-80 h-80 rounded-full bg-purple-500/20 blur-[100px] pointer-events-none" />
-        <div className="relative flex min-h-0 w-full flex-col bg-white/95 dark:bg-gray-950/95">
+        <div className="relative flex min-h-0 w-full flex-col bg-background">
           {subpage ? (
             <div className="flex min-h-0 flex-1 flex-col">
               <div className="flex items-center gap-2 border-b border-gray-200/60 px-4 py-3 dark:border-gray-800/30">
                 <button
                   onClick={goBack}
-                  className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 dark:hover:bg-gray-900 dark:text-gray-400 transition-colors"
+                  className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 dark:hover:bg-gray-900 dark:text-muted transition-colors"
                 >
                   <ArrowLeftIcon className="w-4 h-4" />
                 </button>
-                <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <p className="text-sm font-semibold text-ink-2">
                   {results.find((c) => c.subpage === subpage)?.label || "Search"}
                 </p>
                 <div className="flex-1" />
                 <button
                   onClick={onClose}
-                  className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 dark:hover:bg-gray-900 dark:text-gray-400 transition-colors"
+                  className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 dark:hover:bg-gray-900 dark:text-muted transition-colors"
                 >
                   <XIcon className="w-4 h-4" />
                 </button>
@@ -607,7 +606,7 @@ export function CommandPalette({
             <>
               <div className="shrink-0 border-b border-gray-200/60 px-4 py-4 dark:border-gray-800/30 md:px-5">
                 <div className="flex items-center gap-3">
-                  <div className="p-1.5 rounded-lg bg-gradient-to-br from-blue-500/10 to-purple-500/10 text-blue-600 dark:text-blue-400">
+                  <div className="rounded-sm bg-accent-soft p-1.5 text-accent">
                     <SearchIcon />
                   </div>
                   <input
@@ -616,23 +615,23 @@ export function CommandPalette({
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search commands..."
-                    className="min-w-0 flex-1 bg-transparent text-base text-gray-900 outline-none placeholder-gray-400 dark:text-gray-100 dark:placeholder-gray-500"
+                    className="min-w-0 flex-1 bg-transparent text-base text-gray-900 outline-none placeholder:text-muted dark:text-gray-100 dark:placeholder-gray-500"
                   />
                   {query && (
                     <button
                       onClick={() => setQuery("")}
-                      className="rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-900 dark:hover:text-gray-200"
+                      className="rounded-lg p-1.5 text-muted transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-900 dark:hover:text-gray-200"
                       aria-label="Clear search"
                     >
                       <XIcon className="h-4 w-4" />
                     </button>
                   )}
-                  <kbd className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
+                  <kbd className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-semibold text-muted bg-surface-2 rounded-lg border border-line">
                     <CommandIcon className="w-3 h-3" />K
                   </kbd>
                   <button
                     onClick={onClose}
-                    className="rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-900 dark:hover:text-gray-200"
+                    className="rounded-lg p-1.5 text-muted transition-colors hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-gray-900 dark:hover:text-gray-200"
                     aria-label="Close search"
                   >
                     <XIcon className="h-5 w-5" />
@@ -646,7 +645,7 @@ export function CommandPalette({
                       className={cn(
                         "inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border px-3 text-xs font-bold transition-colors",
                         activeCategory === category
-                          ? "border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900/60 dark:bg-blue-950/40 dark:text-blue-300"
+                          ? "border-accent/40 bg-accent-soft text-accent"
                           : "border-gray-200 bg-white text-gray-500 hover:text-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400 dark:hover:text-gray-200"
                       )}
                     >
@@ -666,17 +665,16 @@ export function CommandPalette({
                 className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-2 scroll-smooth md:max-h-[22rem]"
               >
                 {calculatorResult && (
-                  <div className="mx-1 mb-2 flex items-center gap-3 rounded-xl border border-blue-200/50 bg-gradient-to-br from-blue-50/80 to-indigo-50/80 px-4 py-3 dark:border-blue-800/30 dark:from-blue-950/30 dark:to-indigo-950/20">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-black/5 dark:bg-gray-900">
-                      <CalculatorIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <div className="mx-1 mb-2 flex items-center gap-3 rounded-md border border-accent/40 bg-accent-soft px-4 py-3">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border border-line bg-surface">
+                      <CalculatorIcon className="h-4 w-4 text-accent" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-gray-900 dark:text-white">
-                        {calculatorResult.expr}{" "}
-                        <span className="text-blue-600 dark:text-blue-400">=</span>
+                      <p className="text-sm font-bold text-ink">
+                        {calculatorResult.expr} <span className="text-accent">=</span>
                       </p>
                     </div>
-                    <span className="shrink-0 text-lg font-black tabular-nums text-blue-700 dark:text-blue-300">
+                    <span className="shrink-0 text-lg font-semibold tabular-nums text-accent">
                       {calculatorResult.result}
                     </span>
                   </div>
@@ -688,48 +686,38 @@ export function CommandPalette({
                 smartTips.length > 0 ? (
                   <div className="space-y-1 px-3 py-4">
                     <div className="flex items-center gap-2 mb-3">
-                      <LightbulbIcon className="w-3.5 h-3.5 text-amber-500" />
-                      <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest">
-                        Pro Tips
-                      </p>
-                      <div className="flex-1 h-px bg-gradient-to-r from-gray-200/60 to-transparent dark:from-gray-800/30" />
+                      <LightbulbIcon className="w-3.5 h-3.5 text-warn" />
+                      <p className="text-[11px] font-semibold text-muted">Pro Tips</p>
+                      <div className="h-px flex-1 bg-line-2" />
                     </div>
                     {smartTips.map((tip) => (
                       <div
                         key={tip.id}
                         className="flex items-center gap-2.5 py-1.5 px-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors cursor-default"
                       >
-                        <span className="text-gray-400 dark:text-gray-500">{tip.icon}</span>
-                        <span className="text-[12px] font-medium text-gray-500 dark:text-gray-400">
-                          {tip.text}
-                        </span>
+                        <span className="text-muted">{tip.icon}</span>
+                        <span className="text-[12px] font-medium text-muted">{tip.text}</span>
                       </div>
                     ))}
                   </div>
                 ) : results.length === 0 ? (
                   <div className="flex flex-col items-center py-12 text-center">
-                    <div className="p-3 rounded-2xl bg-gray-100 dark:bg-gray-900 mb-3">
-                      <SparklesIcon className="w-6 h-6 text-gray-400 dark:text-gray-500" />
+                    <div className="p-3 rounded-md bg-surface-2 mb-3">
+                      <SparklesIcon className="w-6 h-6 text-muted" />
                     </div>
-                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                      No results found
-                    </p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                      Try a different search term
-                    </p>
+                    <p className="text-sm font-medium text-muted">No results found</p>
+                    <p className="text-xs text-muted mt-1">Try a different search term</p>
                   </div>
                 ) : (
                   Object.entries(grouped).map(([category, items]) => (
                     <div key={category}>
                       {Object.keys(grouped).length > 1 && (
-                        <div className="sticky top-0 z-10 flex items-center gap-2 bg-white/95 px-3 pb-1.5 pt-3 backdrop-blur dark:bg-gray-950/95">
+                        <div className="sticky top-0 z-10 flex items-center gap-2 bg-background px-3 pb-1.5 pt-3">
                           <div
-                            className={`h-1.5 w-1.5 rounded-full bg-gradient-to-br ${categoryGradients[category] || "from-gray-400 to-gray-500"}`}
+                            className={`h-1.5 w-1.5 rounded-full ${categoryDot[category] || "bg-muted"}`}
                           />
-                          <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest">
-                            {category}
-                          </p>
-                          <div className="flex-1 h-px bg-gradient-to-r from-gray-200/60 to-transparent dark:from-gray-800/30" />
+                          <p className="text-[11px] font-semibold text-muted">{category}</p>
+                          <div className="h-px flex-1 bg-line-2" />
                         </div>
                       )}
                       {items.map((cmd) => {
@@ -749,17 +737,17 @@ export function CommandPalette({
                             className={cn(
                               "flex w-full touch-manipulation items-center gap-3 rounded-xl px-3 py-3 text-left transition-colors duration-150 md:py-2.5",
                               globalIdx === safeIndex
-                                ? "bg-blue-50 text-gray-900 shadow-sm ring-1 ring-blue-100 dark:bg-blue-950/30 dark:text-gray-100 dark:ring-blue-900/40"
+                                ? "bg-accent-soft text-ink ring-1 ring-accent/40"
                                 : "text-gray-700 hover:bg-gray-50/80 dark:text-gray-300 dark:hover:bg-gray-800/40"
                             )}
                           >
                             {cmd.icon && (
                               <span
                                 className={cn(
-                                  "shrink-0 w-8 h-8 flex items-center justify-center rounded-xl text-sm transition-all",
+                                  "shrink-0 w-8 h-8 flex items-center justify-center rounded-xl text-sm transition-colors",
                                   globalIdx === safeIndex
-                                    ? "bg-white dark:bg-gray-900 shadow-sm ring-1 ring-black/5"
-                                    : "bg-gray-100/80 dark:bg-gray-900/60 text-gray-500 dark:text-gray-400"
+                                    ? "bg-surface ring-1 ring-line"
+                                    : "bg-gray-100/80 dark:bg-gray-900/60 text-muted"
                                 )}
                               >
                                 {cmd.icon}
@@ -769,15 +757,13 @@ export function CommandPalette({
                               <p
                                 className={cn(
                                   "text-sm font-semibold truncate leading-tight",
-                                  globalIdx === safeIndex
-                                    ? "text-gray-900 dark:text-gray-100"
-                                    : "text-gray-800 dark:text-gray-200"
+                                  globalIdx === safeIndex ? "text-ink" : "text-ink"
                                 )}
                               >
                                 {cmd.label}
                               </p>
                               {cmd.description && !cmd.rightSlot && (
-                                <p className="text-[11px] text-gray-400 dark:text-gray-500 truncate mt-0.5">
+                                <p className="text-[11px] text-muted truncate mt-0.5">
                                   {cmd.description}
                                 </p>
                               )}
@@ -785,15 +771,15 @@ export function CommandPalette({
                             {cmd.rightSlot ? (
                               <div className="shrink-0">{cmd.rightSlot}</div>
                             ) : cmd.description ? (
-                              <p className="hidden md:block text-[11px] text-gray-400 dark:text-gray-500 truncate max-w-[180px] mr-1">
+                              <p className="hidden md:block text-[11px] text-muted truncate max-w-[180px] mr-1">
                                 {cmd.description}
                               </p>
                             ) : null}
                             <ArrowRightIcon
                               className={cn(
-                                "w-4 h-4 shrink-0 transition-all",
+                                "w-4 h-4 shrink-0 transition-[color,transform] duration-[120ms]",
                                 globalIdx === safeIndex
-                                  ? "text-blue-500 dark:text-blue-400 translate-x-0.5"
+                                  ? "text-accent translate-x-0.5"
                                   : "text-gray-300 dark:text-gray-600"
                               )}
                             />
@@ -805,15 +791,13 @@ export function CommandPalette({
                 )}
 
                 {!query && searchHistory.length > 0 && (
-                  <div className="mt-2 border-t border-gray-100 dark:border-gray-800/30 pt-2 px-1">
+                  <div className="mt-2 border-t border-line-2/30 pt-2 px-1">
                     <div className="flex items-center gap-2 mb-1.5 px-2">
-                      <HistoryIcon className="w-3 h-3 text-gray-400" />
-                      <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest flex-1">
-                        Recent Searches
-                      </p>
+                      <HistoryIcon className="w-3 h-3 text-muted" />
+                      <p className="text-[11px] font-semibold text-muted flex-1">Recent Searches</p>
                       <button
                         onClick={clearHistory}
-                        className="flex items-center gap-1 text-[10px] font-semibold text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 transition-colors"
+                        className="flex items-center gap-1 text-[11px] font-semibold text-muted hover:text-danger dark:text-gray-500 transition-colors"
                       >
                         <TrashIcon className="w-3 h-3" /> Clear
                       </button>
@@ -836,30 +820,25 @@ export function CommandPalette({
 
               {hasDetail && (
                 <div className="relative hidden max-h-52 shrink-0 overflow-y-auto border-t border-gray-200/60 bg-gray-50/50 p-3 md:block dark:border-gray-800/30 dark:bg-gray-950/30">
-                  <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-transparent" />
+                  <div className="absolute inset-x-0 -top-px h-px bg-line" />
                   {results[safeIndex].detail}
                 </div>
               )}
 
-              <div className="hidden shrink-0 items-center justify-between border-t border-gray-200/60 px-5 py-2.5 text-[11px] text-gray-400 md:flex dark:border-gray-800/30 dark:text-gray-500">
+              <div className="hidden shrink-0 items-center justify-between border-t border-gray-200/60 px-5 py-2.5 text-[11px] text-muted md:flex dark:border-gray-800/30 dark:text-gray-500">
                 <span className="flex items-center gap-1">
                   <ArrowRightIcon className="w-3 h-3" />{" "}
-                  <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-900 font-semibold">
-                    Enter
-                  </kbd>{" "}
+                  <kbd className="px-1.5 py-0.5 rounded bg-surface-2 font-semibold">Enter</kbd>{" "}
                   select
                 </span>
                 <span className="flex items-center gap-1">
-                  <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-900 font-semibold">
+                  <kbd className="px-1.5 py-0.5 rounded bg-surface-2 font-semibold">
                     \u2191\u2193
                   </kbd>{" "}
                   navigate
                 </span>
                 <span className="flex items-center gap-1">
-                  <kbd className="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-900 font-semibold">
-                    Esc
-                  </kbd>{" "}
-                  close
+                  <kbd className="px-1.5 py-0.5 rounded bg-surface-2 font-semibold">Esc</kbd> close
                 </span>
               </div>
             </>

@@ -1,4 +1,5 @@
 "use client"
+import { useEffect, useId } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "../../lib/utils"
 
@@ -29,6 +30,18 @@ export function AppLibrary({
   headerRight,
   className,
 }: AppLibraryProps) {
+  const titleId = useId()
+
+  // Escape closes the sheet, like every other overlay.
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose()
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [open, onClose])
+
   return (
     <AnimatePresence>
       {open && (
@@ -43,6 +56,9 @@ export function AppLibrary({
             style={{ willChange: "opacity" }}
           />
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
@@ -63,6 +79,7 @@ export function AppLibrary({
                   <div className="flex items-center gap-2">
                     {showBack && (
                       <button
+                        type="button"
                         onClick={onBack}
                         className="-ml-1 flex items-center gap-1 min-h-11 rounded-sm px-1 text-[13px] font-medium text-accent hover:bg-surface-2"
                       >
@@ -81,7 +98,7 @@ export function AppLibrary({
                         Back
                       </button>
                     )}
-                    <h2 className="truncate text-xl font-semibold tracking-tight text-ink">
+                    <h2 id={titleId} className="truncate text-xl font-semibold tracking-tight text-ink">
                       {title}
                     </h2>
                   </div>
@@ -89,7 +106,9 @@ export function AppLibrary({
                 </div>
                 {headerRight}
                 <button
+                  type="button"
                   onClick={onClose}
+                  aria-label="Close"
                   className="grid h-11 w-11 shrink-0 place-items-center rounded-sm text-ink-2 hover:bg-surface-2"
                 >
                   <svg
@@ -142,7 +161,7 @@ export function AppLibrary({
               </div>
             )}
 
-            <div className="min-h-0 flex-1 space-y-6 overflow-y-auto px-5 py-4 pb-36">
+            <div className="min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain px-5 pb-6 pt-2">
               {children}
             </div>
           </motion.div>
